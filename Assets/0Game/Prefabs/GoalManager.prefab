@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5704290358597595230
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5704290358597595224}
+  - component: {fileID: 5704290358597595225}
+  m_Layer: 0
+  m_Name: GoalManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &5704290358597595224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5704290358597595230}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 881.18677, y: 466.44595, z: 224.89551}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5704290358597595225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5704290358597595230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7858d80429be9a44d90a386e475685c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _mondayGoals:
+  - {fileID: 11400000, guid: 0b0b2103bafd04045b55ca08a17e13bd, type: 2}
+  - {fileID: 11400000, guid: 984324140c1133440979244f5d803457, type: 2}
+  - {fileID: 11400000, guid: 3159a5ba6fae6394f9cdc7186bd9f0a3, type: 2}
+  _tuesdayGoals:
+  - {fileID: 11400000, guid: 7632b13c6935fbb46af3ff9f1fcb6368, type: 2}
+  - {fileID: 11400000, guid: 051969d2ead8e4f429a20d8089252fed, type: 2}
+  - {fileID: 11400000, guid: 3159a5ba6fae6394f9cdc7186bd9f0a3, type: 2}
+  _wednesdayGoals:
+  - {fileID: 11400000, guid: 0b0b2103bafd04045b55ca08a17e13bd, type: 2}
+  - {fileID: 11400000, guid: 984324140c1133440979244f5d803457, type: 2}
+  - {fileID: 11400000, guid: e623a07182fca974083efcde572a8213, type: 2}
+  _thursdayGoals:
+  - {fileID: 11400000, guid: b1415a7d0f8b1ca4fbf0a8f8208101d2, type: 2}
+  - {fileID: 11400000, guid: 7632b13c6935fbb46af3ff9f1fcb6368, type: 2}
+  - {fileID: 11400000, guid: 3159a5ba6fae6394f9cdc7186bd9f0a3, type: 2}
+  _fridayGoals:
+  - {fileID: 11400000, guid: 0b0b2103bafd04045b55ca08a17e13bd, type: 2}
+  - {fileID: 11400000, guid: 38bc4769732e87e4587c01d76c2c1dbd, type: 2}
+  - {fileID: 11400000, guid: 3159a5ba6fae6394f9cdc7186bd9f0a3, type: 2}
+  _saturdayGoals:
+  - {fileID: 11400000, guid: 0b0b2103bafd04045b55ca08a17e13bd, type: 2}
+  - {fileID: 11400000, guid: 984324140c1133440979244f5d803457, type: 2}
+  - {fileID: 11400000, guid: f6347e3b49c23d24b91888901fce79b7, type: 2}
+  _sundayGoals:
+  - {fileID: 11400000, guid: 0b0b2103bafd04045b55ca08a17e13bd, type: 2}
+  - {fileID: 11400000, guid: 984324140c1133440979244f5d803457, type: 2}
+  - {fileID: 11400000, guid: 7632b13c6935fbb46af3ff9f1fcb6368, type: 2}
+  CurrentDailyGoals: []
+  _dailyGoalProgressEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  _weeklyGoals:
+  - goals:
+    - {fileID: 11400000, guid: 82037c141523ac0499aa31e9b702ef20, type: 2}
+    - {fileID: 11400000, guid: 930bd3825deaa4a4180be39d2d983a04, type: 2}
+    - {fileID: 11400000, guid: e41ab3dd762f51942902d318e9e3cb8c, type: 2}
+  - goals:
+    - {fileID: 11400000, guid: 82037c141523ac0499aa31e9b702ef20, type: 2}
+    - {fileID: 11400000, guid: 84915644c270e0a4fb3a4e6370cb7b23, type: 2}
+    - {fileID: 11400000, guid: dded9943e2b13324dba5e5725152f543, type: 2}
+  - goals:
+    - {fileID: 11400000, guid: d328e03c82ea04840bb41a8fde54f38e, type: 2}
+    - {fileID: 11400000, guid: bc591e55d01b58a4abb226dc8dc8db67, type: 2}
+    - {fileID: 11400000, guid: e41ab3dd762f51942902d318e9e3cb8c, type: 2}
+  - goals:
+    - {fileID: 11400000, guid: c8d1ad812999f574485d1868074dbbf8, type: 2}
+    - {fileID: 11400000, guid: 930bd3825deaa4a4180be39d2d983a04, type: 2}
+    - {fileID: 11400000, guid: 7e640fcf7e77c6848982d94d7f337374, type: 2}
+  CurrentWeeklyGoals: []
+  _weeklyGoalProgressEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  - m_PersistentCalls:
+      m_Calls: []
+  _numberOfDailyGoals: 3
+  _numberOfWeeklyGoals: 3

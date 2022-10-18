@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29aa0d53fa6d95741b15d777bf78c7e7, type: 3}
+  m_Name: Sunglasses_Hat
+  m_EditorClassIdentifier: 
+  Type: 0
+  GameObject: {fileID: 1565992212020979695, guid: 7acc1431e55de2f4bb6742d8382655b9, type: 3}
+  Price: 1
+  Sprite: {fileID: 21300000, guid: b284a797d55fe164b949a5d0f7ed6088, type: 3}
+  Id: 10
+  Owned: 0

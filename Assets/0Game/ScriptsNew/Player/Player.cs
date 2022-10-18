@@ -217,6 +217,10 @@ public class Player : NetworkBehaviour
 
             HideDeathScreen(false);
 
+            var audiomanager = FindObjectOfType<AudioManager>();
+            if (audiomanager != null)
+                audiomanager.SetVolumeSlider();
+
             var obj = FindObjectOfType<InGameUI>();
             if (obj != null)
                 obj.InitializeUI();

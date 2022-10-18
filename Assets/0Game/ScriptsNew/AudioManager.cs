@@ -12,8 +12,13 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (MasterVolumeSlider == null)
-            MasterVolumeSlider = Player.Local.AudioSlider;
+        if (MasterVolumeSlider == null && Player.Local != null)
+            SetVolumeSlider();
+    }
+
+    public void SetVolumeSlider()
+    {
+        MasterVolumeSlider = Player.Local.AudioSlider;
     }
 
     public void StopMusic()

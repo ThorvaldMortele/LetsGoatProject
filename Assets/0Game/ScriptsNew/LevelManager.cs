@@ -17,7 +17,7 @@ public class LevelManager : NetworkSceneManagerBase
     private Scene _loadedScene;
     private GameObject _startCamera;
 
-    public FusionLauncher launcher { get; set; }
+    //public FusionLauncher launcher { get; set; }
 
     private void Awake()
     {
@@ -97,52 +97,52 @@ public class LevelManager : NetworkSceneManagerBase
             InputController.fetchInput = false;
 
             // Despawn players with a small delay between each one
-            Debug.Log("De-spawning all players");
+            //Debug.Log("De-spawning all players");
             for (int i = 0; i < PlayerManager.AllPlayers.Count; i++)
             {
-                Debug.Log($"De-spawning player {i}:{PlayerManager.AllPlayers[i]}");
+                //Debug.Log($"De-spawning player {i}:{PlayerManager.AllPlayers[i]}");
                 PlayerManager.AllPlayers[i].DespawnGoat();
                 yield return null;
             }
 
-            Debug.Log("Despawned all players");
+            //Debug.Log("Despawned all players");
             // Players have despawned
         }
 
-        launcher.SetConnectionStatus(FusionLauncher.ConnectionStatus.Loading, "");
+        //launcher.SetConnectionStatus(FusionLauncher.ConnectionStatus.Loading, "");
 
         yield return null;
-        Debug.Log($"Start loading scene {newScene} in single peer mode");
+        //Debug.Log($"Start loading scene {newScene} in single peer mode");
 
         if (_loadedScene != default)
         {
-            Debug.Log($"Unloading Scene {_loadedScene.buildIndex}");
+            //Debug.Log($"Unloading Scene {_loadedScene.buildIndex}");
             yield return SceneManager.UnloadSceneAsync(_loadedScene);
         }
 
         _loadedScene = default;
-        Debug.Log($"Loading scene {newScene}");
+        //Debug.Log($"Loading scene {newScene}");
 
         List<NetworkObject> sceneObjects = new List<NetworkObject>();
         if (newScene >= 0)
         {
             yield return SceneManager.LoadSceneAsync(newScene, LoadSceneMode.Additive);
             _loadedScene = SceneManager.GetSceneByBuildIndex(newScene);
-            Debug.Log($"Loaded scene {newScene}: {_loadedScene}");
+            //Debug.Log($"Loaded scene {newScene}: {_loadedScene}");
             sceneObjects = FindNetworkObjects(_loadedScene, disable: true);
         }
 
         // Delay one frame
         yield return null;
 
-        launcher.SetConnectionStatus(FusionLauncher.ConnectionStatus.Loaded, "");
+        //launcher.SetConnectionStatus(FusionLauncher.ConnectionStatus.Loaded, "");
 
         // Activate the next level
         _currentLevel = FindObjectOfType<LevelBehaviour>();
         if (_currentLevel != null)
             _currentLevel.Activate(Runner);
 
-        Debug.Log($"Switched Scene from {prevScene} to {newScene} - loaded {sceneObjects.Count} scene objects");
+        //Debug.Log($"Switched Scene from {prevScene} to {newScene} - loaded {sceneObjects.Count} scene objects");
         finished(sceneObjects);
 
         StartCoroutine(SwitchScenePostFadeIn(prevScene, newScene));
@@ -150,21 +150,21 @@ public class LevelManager : NetworkSceneManagerBase
 
     IEnumerator SwitchScenePostFadeIn(SceneRef prevScene, SceneRef newScene)
     {
-        Debug.Log("SwitchScene post effect");
+        //Debug.Log("SwitchScene post effect");
 
         yield return null;
 
         // Respawn with slight delay between each player
-        Debug.Log($"Respawning All Players");
+        //Debug.Log($"Respawning All Players");
         for (int i = 0; i < PlayerManager.AllPlayers.Count; i++)
         {
             Player player = PlayerManager.AllPlayers[i];
-            Debug.Log($"Respawning Player {i}:{player}");
+            //Debug.Log($"Respawning Player {i}:{player}");
             player.Respawn();
             yield return null;
         }
 
-        Debug.Log($"Switched Scene from {prevScene} to {newScene}");
+        //Debug.Log($"Switched Scene from {prevScene} to {newScene}");
         GameManagerNew.Instance.StartLevelTimer();
     }
 }

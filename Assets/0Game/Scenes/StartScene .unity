@@ -8475,6 +8475,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7749104557743739078, guid: 4a9e420cfb6a22d4294934fd2298a37c, type: 3}
+      propertyPath: Runnerprefab
+      value: 
+      objectReference: {fileID: 293566232924851135, guid: 0b7a4c5f7a751d64fb898c9ea368cc0a, type: 3}
     - target: {fileID: 7749104557743739079, guid: 4a9e420cfb6a22d4294934fd2298a37c, type: 3}
       propertyPath: m_Name
       value: GameLauncher

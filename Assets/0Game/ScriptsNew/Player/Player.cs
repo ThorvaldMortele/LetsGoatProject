@@ -781,7 +781,9 @@ public class Player : NetworkBehaviour
             //respawnTimer = TickTimer.CreateFromSeconds(Runner, 0.1f);
             //invulnerabilityTimer = TickTimer.CreateFromSeconds(Runner, 1);
 
-            // Place the tank at its spawn point. This has to be done in FUN() because the transform gets reset otherwise
+            CC.Velocity = Vector3.zero;
+
+            // Place the goat at its spawn point. This has to be done in FUN() because the transform gets reset otherwise
             Transform spawn = respawnPoint.transform;
             transform.position = spawn.position;
             transform.rotation = spawn.rotation;
@@ -876,8 +878,7 @@ public class Player : NetworkBehaviour
         }
     }
 
-    //i think this is where it goes wrong
-    public async void TriggerDespawn()
+    public void TriggerDespawn()
     {
         DespawnGoat();
         PlayerManager.RemovePlayer(this);
@@ -886,26 +887,25 @@ public class Player : NetworkBehaviour
 
         if (Object == null) { return; }
 
-        if (Object.HasStateAuthority)
+        if (Object.HasInputAuthority)
         {
-            Debug.LogError(Object.name);
             Runner.Despawn(Object);
         }
-        else if (Runner.IsSharedModeMasterClient)
-        {
-            Object.RequestStateAuthority();
+        //else if (Runner.IsSharedModeMasterClient)
+        //{
+        //    Object.RequestStateAuthority();
 
-            while (Object.HasStateAuthority == false)
-            {
-                Debug.LogError(Object.name + " " + Object.HasStateAuthority);
-                await Task.Delay(300); // wait for Auth transfer
-            }
+        //    while (Object.HasStateAuthority == false)
+        //    {
+        //        Debug.LogError(Object.name + " " + Object.HasStateAuthority);
+        //        await Task.Delay(300); // wait for Auth transfer
+        //    }
 
-            if (Object.HasStateAuthority)
-            {
-                Runner.Despawn(Object);
-            }
-        }
+        //    if (Object.HasStateAuthority)
+        //    {
+        //        Runner.Despawn(Object);
+        //    }
+        //}
     }
 
     public static void OnNameChanged(Changed<Player> changed)

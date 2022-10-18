@@ -64,7 +64,10 @@ MonoBehaviour:
   _banner1: {fileID: 0}
   _banner2: {fileID: 7646457439859498349}
   HasExceededNameCharLimit: 0
+  HasUsedInvalidName: 0
   MasterVolumeSlider: {fileID: 0}
+  Board: {fileID: 0}
+  Runnerprefab: {fileID: 293566232924851135, guid: 0b7a4c5f7a751d64fb898c9ea368cc0a, type: 3}
 --- !u!1001 &7749104556636919239
 PrefabInstance:
   m_ObjectHideFlags: 0

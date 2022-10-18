@@ -62,6 +62,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     public NetworkRunner Runnerprefab;
 
+    private NetworkRunner _currentRunner;
+
     private void Awake()
     {
         UnityEngine.Application.targetFrameRate = 60;
@@ -71,7 +73,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     private void Start()
     {
-        OnConnectionStatusUpdate(null, FusionLauncher.ConnectionStatus.Disconnected, "");
+        //OnConnectionStatusUpdate(null, FusionLauncher.ConnectionStatus.Disconnected, "");
 
         Board = FindObjectOfType<BoardUI>();
     }
@@ -98,7 +100,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
         else
         {
-            EnterRoom();
+            StartPlaying();
 
             if (GameManagerNew.Instance != null)
                 GameManagerNew.Instance.DisableLoadingScreen();
@@ -135,52 +137,68 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         LoginPlayer();
     }
 
-    public void StartHost()
+    //public void StartShared()
+    //{
+    //    if (HasExceededNameCharLimit) return;
+    //    if (HasUsedInvalidName) return;
+
+    //    EnableLoadingScreen();
+
+    //    _gameMode = GameMode.Shared;
+
+    //    var eventSystem = EventSystem.current;
+    //    if (!eventSystem.alreadySelecting) eventSystem.SetSelectedGameObject(null);
+
+    //    LoginPlayer();
+    //}
+
+
+    public async void StartPlaying() 
     {
-        _gameMode = GameMode.Host;
-        EnterRoom();
-    }
-
-    public void StartClient()
-    {
-        _gameMode = GameMode.Client;
-        EnterRoom();
-    }
-
-    public void StartShared()
-    {
-        if (HasExceededNameCharLimit) return;
-        if (HasUsedInvalidName) return;
-
-        EnableLoadingScreen();
-
-        _gameMode = GameMode.Shared;
-
-        var eventSystem = EventSystem.current;
-        if (!eventSystem.alreadySelecting) eventSystem.SetSelectedGameObject(null);
-
-        LoginPlayer();
-    }
-
-    public void EnterRoom()
-    {
-        FusionLauncher launcher = FindObjectOfType<FusionLauncher>();
-        if (launcher == null)
-        {
-            launcher = new GameObject("Launcher").AddComponent<FusionLauncher>();
-        }
-
         LevelManager levelManager = FindObjectOfType<LevelManager>();
-        levelManager.launcher = launcher;
 
-        //DONT FORGET TO RESET TO "" WHEN DONE TESTING
+        if (FindObjectOfType<NetworkRunner>() != null)
+        {
+            _currentRunner = FindObjectOfType<NetworkRunner>();
+        }
+        else
+        {
+            _currentRunner = gameObject.AddComponent<NetworkRunner>();
+        }
+        
+        _currentRunner.ProvideInput = true;
+
+        await _currentRunner.StartGame(new StartGameArgs()
+        {
+            GameMode = _gameMode,
 #if UNITY_EDITOR
-        launcher.Launch(_gameMode, "LeaveMeAlone", levelManager, OnConnectionStatusUpdate, OnSpawnWorld, OnSpawnPlayer, OnDespawnPlayer);
+            SessionName = "LeaveMeAlone",
 #else
-        launcher.Launch(_gameMode, "", levelManager, OnConnectionStatusUpdate, OnSpawnWorld, OnSpawnPlayer, OnDespawnPlayer);
+            SessionName = "",
 #endif
-
+            SceneManager = levelManager
+        });
     }
+
+//    public void EnterRoom()
+//    {
+//        FusionLauncher launcher = FindObjectOfType<FusionLauncher>();
+//        if (launcher == null)
+//        {
+//            launcher = new GameObject("Launcher").AddComponent<FusionLauncher>();
+//        }
+
+//        LevelManager levelManager = FindObjectOfType<LevelManager>();
+//        levelManager.launcher = launcher;
+
+//        //DONT FORGET TO RESET TO "" WHEN DONE TESTING
+//#if UNITY_EDITOR
+//        launcher.Launch(_gameMode, "LeaveMeAlone", levelManager, OnConnectionStatusUpdate, OnSpawnWorld, OnSpawnPlayer, OnDespawnPlayer);
+//#else
+//        launcher.Launch(_gameMode, "", levelManager, OnConnectionStatusUpdate, OnSpawnWorld, OnSpawnPlayer, OnDespawnPlayer);
+//#endif
+
+//    }
 
     public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
@@ -243,18 +261,18 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             switch (status)
             {
                 case FusionLauncher.ConnectionStatus.Disconnected:
-                    if (GameManagerNew.Instance != null)
-                    {
-                        GameManagerNew.Instance.DisableLoadingScreen();
-                    }
-                    UnityEngine.Cursor.lockState = CursorLockMode.None;
-                    _startCanvas.enabled = true;
-                    if (CrazySDK.Instance)
-                    {
-                        CrazyEvents.Instance.GameplayStop();
-                    }
-                    ShowBanner(true);
-                    _goalManager.SaveGoalProgress();
+                    //if (GameManagerNew.Instance != null)
+                    //{
+                    //    GameManagerNew.Instance.DisableLoadingScreen();
+                    //}
+                    //UnityEngine.Cursor.lockState = CursorLockMode.None;
+                    //_startCanvas.enabled = true;
+                    //if (CrazySDK.Instance)
+                    //{
+                    //    CrazyEvents.Instance.GameplayStop();
+                    //}
+                    //ShowBanner(true);
+                    //_goalManager.SaveGoalProgress();
                     //Debug.Log("Disconnected!: " + reason);
                     break;
                 case FusionLauncher.ConnectionStatus.Failed:
@@ -271,10 +289,10 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
                 case FusionLauncher.ConnectionStatus.Loading:
                     break;
                 case FusionLauncher.ConnectionStatus.Loaded:
-                    _startTimer = false;
-                    _startCanvas.enabled = false;
-                    _goalManager.SetupGoals();
-                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    //_startTimer = false;
+                    //_startCanvas.enabled = false;
+                    //_goalManager.SetupGoals();
+                    //UnityEngine.Cursor.lockState = CursorLockMode.Locked;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(status), status, null);
@@ -317,6 +335,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         if (player != null)  player.TriggerDespawn();
     }
+
+    #region CrazyGames
 
     public void ClaimAdReward()
     {
@@ -361,78 +381,101 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         }
     }
 
+    #endregion
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        OnSpawnPlayer(runner, player);
+
+        if (runner.LocalPlayer != player) return;
+
+        OnSpawnWorld(runner);
+
+        _startTimer = false;
+        _startCanvas.enabled = false;
+        _goalManager.SetupGoals();
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
+    //only calls this on other people who leave not the local one
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
     {
-        throw new NotImplementedException();
+        OnDespawnPlayer(runner, player);
     }
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
-        throw new NotImplementedException();
+        if (GameManagerNew.Instance != null)
+        {
+            GameManagerNew.Instance.DisableLoadingScreen();
+        }
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        _startCanvas.enabled = true;
+        if (CrazySDK.Instance)
+        {
+            CrazyEvents.Instance.GameplayStop();
+        }
+        ShowBanner(true);
+        _goalManager.SaveGoalProgress();
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnDisconnectedFromServer(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnCustomAuthenticationResponse(NetworkRunner runner, Dictionary<string, object> data)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        return;
     }
 
     public void OnSceneLoadStart(NetworkRunner runner)
     {
-        throw new NotImplementedException();
+        return;
     }
 }

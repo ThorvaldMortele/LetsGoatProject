@@ -289,13 +289,37 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
             yield break;
         }
 
-        //Debug.Log($"Starting LevelTimer: {LevelTickTimer.TargetTick}");
-        while (!LevelTickTimer.ExpiredOrNotRunning(Runner))
+        List<Scene> activeScenes = new List<Scene>();
+
+        for (int i = 0; i < SceneManager.sceneCount; i++)
         {
-            float timer = LevelTickTimer.RemainingTime(Runner).Value;
-            LevelTimeEvent.Invoke(timer);
-            yield return null;
+            activeScenes.Add(SceneManager.GetSceneAt(i));
         }
+
+        if (activeScenes.Count > 1) //we are in a map playing the game
+        {
+            if (activeScenes[1] != SceneManager.GetSceneByBuildIndex(0)) //if we are currently in the startscreen level
+            {
+                while (!LevelTickTimer.ExpiredOrNotRunning(Runner))
+                {
+                    float timer = LevelTickTimer.RemainingTime(Runner).Value;
+                    LevelTimeEvent.Invoke(timer);
+                    yield return null;
+                }
+            }
+        }
+        //else
+        //{
+        //    if (activeScenes[0] != SceneManager.GetSceneByBuildIndex(0)) //if we are currently 
+        //    {
+        //        while (!LevelTickTimer.ExpiredOrNotRunning(Runner))
+        //        {
+        //            float timer = LevelTickTimer.RemainingTime(Runner).Value;
+        //            LevelTimeEvent.Invoke(timer);
+        //            yield return null;
+        //        }
+        //    }
+        //}
 
         LevelOver();
     }
@@ -473,14 +497,17 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
     {
         if (!Runner.IsShutdown)
         {
+            //_levelManager.LoadLevel(0);
+
             // Calling with destroyGameObject false because we do this in the OnShutdown callback on FusionLauncher
 
             Runner.Shutdown(false, shutdownReason);
+
             Instance = null;
             _restart = false;
             _hasStarted = false;
         }
-        StopAllCoroutines();
+        //StopAllCoroutines();
     }
 
     #endregion

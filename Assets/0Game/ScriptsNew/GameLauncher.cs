@@ -137,22 +137,6 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         LoginPlayer();
     }
 
-    //public void StartShared()
-    //{
-    //    if (HasExceededNameCharLimit) return;
-    //    if (HasUsedInvalidName) return;
-
-    //    EnableLoadingScreen();
-
-    //    _gameMode = GameMode.Shared;
-
-    //    var eventSystem = EventSystem.current;
-    //    if (!eventSystem.alreadySelecting) eventSystem.SetSelectedGameObject(null);
-
-    //    LoginPlayer();
-    //}
-
-
     public async void StartPlaying() 
     {
         LevelManager levelManager = FindObjectOfType<LevelManager>();
@@ -179,26 +163,6 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             SceneManager = levelManager
         });
     }
-
-//    public void EnterRoom()
-//    {
-//        FusionLauncher launcher = FindObjectOfType<FusionLauncher>();
-//        if (launcher == null)
-//        {
-//            launcher = new GameObject("Launcher").AddComponent<FusionLauncher>();
-//        }
-
-//        LevelManager levelManager = FindObjectOfType<LevelManager>();
-//        levelManager.launcher = launcher;
-
-//        //DONT FORGET TO RESET TO "" WHEN DONE TESTING
-//#if UNITY_EDITOR
-//        launcher.Launch(_gameMode, "LeaveMeAlone", levelManager, OnConnectionStatusUpdate, OnSpawnWorld, OnSpawnPlayer, OnDespawnPlayer);
-//#else
-//        launcher.Launch(_gameMode, "", levelManager, OnConnectionStatusUpdate, OnSpawnWorld, OnSpawnPlayer, OnDespawnPlayer);
-//#endif
-
-//    }
 
     public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
@@ -318,11 +282,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     private void OnSpawnPlayer(NetworkRunner runner, PlayerRef playerref)
     {
-        if (GameManagerNew.PlayState != GameManagerNew.GamePlayState.Lobby)
-        {
-            //Debug.Log("Not Spawning Player - game has already started");
-            return;
-        }
+        //if (GameManagerNew.PlayState != GameManagerNew.GamePlayState.Lobby)
+        //{
+        //    //Debug.Log("Not Spawning Player - game has already started");
+        //    return;
+        //}
 
         runner.Spawn(_playerPrefab, new Vector3(0, 10, 0), Quaternion.identity, playerref, InitNetworkState);
         void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)

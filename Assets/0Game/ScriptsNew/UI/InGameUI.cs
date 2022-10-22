@@ -169,7 +169,8 @@ public class InGameUI : MonoBehaviour
 
     public void PauseGame()
     {
-        _playerAudioManager.Play("Click");
+        if (_playerAudioManager != null)
+            _playerAudioManager.Play("Click");
 
         if (!_pauseObj.activeInHierarchy && !_settingsObj.activeInHierarchy)
         {

@@ -496,6 +496,7 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
 
     public void Restart(ShutdownReason shutdownReason)
     {
+        if (Runner == null) return;
         if (!Runner.IsShutdown)
         {
             //_levelManager.LoadLevel(0);

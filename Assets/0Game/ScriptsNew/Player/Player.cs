@@ -482,6 +482,8 @@ public class Player : NetworkBehaviour
         }
     }
 
+    #region Bump
+
     private void Bump()
     {
         //Debug.LogWarning("Goat bump");
@@ -525,6 +527,8 @@ public class Player : NetworkBehaviour
     {
         _canBump = true;
     }
+
+    #endregion
 
     public override void FixedUpdateNetwork()
     {
@@ -925,6 +929,8 @@ public class Player : NetworkBehaviour
         UsernameText.text = Username.Value;
     }
 
+    #region Cosmetics
+
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
     private void Rpc_SetPlayerCosmetics(int[] ids)
     {
@@ -1008,4 +1014,6 @@ public class Player : NetworkBehaviour
         _mouthSlot.gameObject.SetActive(show);
         _backSlot.gameObject.SetActive(show);
     }
+
+    #endregion
 }

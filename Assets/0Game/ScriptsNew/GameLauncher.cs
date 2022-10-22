@@ -208,10 +208,13 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         var newRunner = Instantiate(Runnerprefab);
 
+        LevelManager levelManager = FindObjectOfType<LevelManager>();
+
         StartGameResult result = await newRunner.StartGame(new StartGameArgs()
         {
             HostMigrationToken = hostMigrationToken,
-            HostMigrationResume = HostMigrationResume
+            HostMigrationResume = HostMigrationResume,
+            SceneManager = levelManager
         });
 
         if (result.Ok == false)

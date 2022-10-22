@@ -256,7 +256,8 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
         for (int i = 0; i < 5; i++)
         {
             //put all sources in the player audiomanager but make sure the others are 2d
-            Player.Local.GetComponentInChildren<AudioManager>().Play("Countdown");
+            if (Player.Local != null)
+                Player.Local.GetComponentInChildren<AudioManager>().Play("Countdown");
 
             if (animator != null)
                 animator.SetTrigger("Play");

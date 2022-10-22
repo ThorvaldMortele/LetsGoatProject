@@ -165,6 +165,7 @@ public class LevelManager : NetworkSceneManagerBase
         }
 
         //Debug.Log($"Switched Scene from {prevScene} to {newScene}");
-        GameManagerNew.Instance.StartLevelTimer();
+        if (GameManagerNew.Instance != null)
+            GameManagerNew.Instance.StartLevelTimer();
     }
 }

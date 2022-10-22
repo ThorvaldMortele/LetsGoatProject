@@ -10,6 +10,7 @@ using FusionExamples.FusionHelpers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 
 public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
@@ -63,6 +64,12 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     public NetworkRunner Runnerprefab;
 
     private NetworkRunner _currentRunner;
+
+    private Vector3 _moveDelta;
+    private Player _player;
+    private NetworkInputData _frameworkInput;
+
+    public static bool fetchInput = true;
 
     private void Awake()
     {
@@ -120,6 +127,17 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
             DisableLoadingScreen();
             _startTimer = false;
         }
+
+        _moveDelta = Vector3.zero;
+
+        if (InputManager.Instance == null) return;
+
+        if (InputManager.Instance.GetKey(KeyBindingActions.Up)) _moveDelta.z = 1;
+        if (InputManager.Instance.GetKey(KeyBindingActions.Down)) _moveDelta.z = -1;
+        if (InputManager.Instance.GetKey(KeyBindingActions.Left)) _moveDelta.x = -1;
+        if (InputManager.Instance.GetKey(KeyBindingActions.Right)) _moveDelta.x = 1;
+
+        _moveDelta.y = 0;
     }
 
     public void StartHostClient()
@@ -288,7 +306,14 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         //    return;
         //}
 
-        runner.Spawn(_playerPrefab, new Vector3(0, 10, 0), Quaternion.identity, playerref, InitNetworkState);
+        var player = runner.Spawn(_playerPrefab, new Vector3(0, 10, 0), Quaternion.identity, playerref, InitNetworkState);
+
+        if (player.Object.HasInputAuthority)
+        {
+            runner.AddCallbacks(this);
+            _player = player;
+        }
+            
         void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
         {
             Player player = networkObject.gameObject.GetComponent<Player>();
@@ -374,6 +399,35 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
+        if (runner != null)
+        {
+            if (_player != null && _player.Object != null && (_player.State == Player.PlayerState.Active || _player.WaitForInput) && fetchInput)
+            {
+                if (_moveDelta != Vector3.zero)
+                {
+                    _player._timeSinceInput = 0;
+                    float targetAngle = Mathf.Atan2(_moveDelta.x, _moveDelta.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
+                    Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+                    _frameworkInput.Direction = moveDir;
+                    _frameworkInput.TargetAngle = targetAngle;
+                }
+                else
+                {
+                    _frameworkInput.Direction = _moveDelta;
+                }
+
+                if (InputManager.Instance != null)
+                {
+                    _frameworkInput.buttons.Set(NetworkInputData.Buttons.Jump, _player.WaitForInput ? Input.anyKey && !Input.GetKey(KeyCode.LeftWindows) && !Input.GetKey(KeyCode.RightWindows) && !Input.GetKey(KeyCode.LeftApple) && !Input.GetKey(KeyCode.RightApple) : InputManager.Instance.GetKey(KeyBindingActions.Jump) /*Input.GetKey(KeyCode.Space)*/);
+                    _frameworkInput.buttons.Set(NetworkInputData.Buttons.Sprint, InputManager.Instance.GetKey(KeyBindingActions.Sprint) /*Input.GetKey(KeyCode.LeftShift)*/);
+                }
+            }
+
+            // Hand over the data to Fusion
+            input.Set(_frameworkInput);
+        }
+        
         return;
     }
 

@@ -33,13 +33,15 @@ public class InputController : NetworkBehaviour, INetworkRunnerCallbacks
     public override void Spawned()
     {
         //_mobileInput = FindObjectOfType<MobileInput>(true);
-        _player = GetComponent<Player>();
+
+        //_player = GetComponent<Player>();
+
         // Technically, it does not really matter which InputController fills the input structure, since the actual data will only be sent to the one that does have authority,
         // but in the name of clarity, let's make sure we give input control to the gameobject that also has Input authority.
-        if (Object.HasInputAuthority)
-        {
-            Runner.AddCallbacks(this);
-        }
+        //if (Object.HasInputAuthority)
+        //{
+        //    Runner.AddCallbacks(this);
+        //}
 
         Debug.Log("Spawned [" + this + "] IsClient=" + Runner.IsClient + " IsServer=" + Runner.IsServer + " HasInputAuth=" + Object.HasInputAuthority + " HasStateAuth=" + Object.HasStateAuthority);
     }
@@ -50,32 +52,7 @@ public class InputController : NetworkBehaviour, INetworkRunnerCallbacks
 
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        if (_player!=null && _player.Object!=null && (_player.State == Player.PlayerState.Active || _player.WaitForInput) && fetchInput)
-        {
-            if (_moveDelta != Vector3.zero)
-            {
-                _player._timeSinceInput = 0;
-
-                float targetAngle = Mathf.Atan2(_moveDelta.x, _moveDelta.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
-                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-
-                _frameworkInput.Direction = moveDir;
-                _frameworkInput.TargetAngle = targetAngle;
-            }
-            else
-            {
-                _frameworkInput.Direction = _moveDelta;
-            }
-
-            if (InputManager.Instance != null)
-            {
-                _frameworkInput.buttons.Set(NetworkInputData.Buttons.Jump, _player.WaitForInput ? Input.anyKey && !Input.GetKey(KeyCode.LeftWindows) && !Input.GetKey(KeyCode.RightWindows) && !Input.GetKey(KeyCode.LeftApple) && !Input.GetKey(KeyCode.RightApple) : InputManager.Instance.GetKey(KeyBindingActions.Jump) /*Input.GetKey(KeyCode.Space)*/);
-                _frameworkInput.buttons.Set(NetworkInputData.Buttons.Sprint, InputManager.Instance.GetKey(KeyBindingActions.Sprint) /*Input.GetKey(KeyCode.LeftShift)*/);
-            }            
-        }
-
-        // Hand over the data to Fusion
-        input.Set(_frameworkInput);
+        return;
     }
 
     public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }

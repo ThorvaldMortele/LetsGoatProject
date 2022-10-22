@@ -308,15 +308,16 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
         var player = runner.Spawn(_playerPrefab, new Vector3(0, 10, 0), Quaternion.identity, playerref, InitNetworkState);
 
-        if (player.Object.HasInputAuthority)
-        {
-            runner.AddCallbacks(this);
-            _player = player;
-        }
-            
         void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
         {
             Player player = networkObject.gameObject.GetComponent<Player>();
+
+            if (player.Object.HasInputAuthority)
+            {
+                runner.AddCallbacks(this);
+                _player = player;
+            }
+
             //Debug.Log($"Initializing player {player.playerID}");
             player.InitNetworkState();
         }

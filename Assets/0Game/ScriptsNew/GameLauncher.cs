@@ -66,7 +66,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     private NetworkRunner _currentRunner;
 
     private Vector3 _moveDelta;
-    private Player _player;
+    public Player Playerguy;
     private NetworkInputData _frameworkInput;
 
     public static bool fetchInput = true;
@@ -312,12 +312,6 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
         {
             Player player = networkObject.gameObject.GetComponent<Player>();
 
-            if (player.Object.HasInputAuthority)
-            {
-                runner.AddCallbacks(this);
-                _player = player;
-            }
-
             //Debug.Log($"Initializing player {player.playerID}");
             player.InitNetworkState();
         }
@@ -402,11 +396,11 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner != null)
         {
-            if (_player != null && _player.Object != null && (_player.State == Player.PlayerState.Active || _player.WaitForInput) && fetchInput)
+            if (Playerguy != null && Playerguy.Object != null && (Playerguy.State == Player.PlayerState.Active || Playerguy.WaitForInput) && fetchInput)
             {
                 if (_moveDelta != Vector3.zero)
                 {
-                    _player._timeSinceInput = 0;
+                    Playerguy._timeSinceInput = 0;
                     float targetAngle = Mathf.Atan2(_moveDelta.x, _moveDelta.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
                     Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
@@ -420,7 +414,7 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
                 if (InputManager.Instance != null)
                 {
-                    _frameworkInput.buttons.Set(NetworkInputData.Buttons.Jump, _player.WaitForInput ? Input.anyKey && !Input.GetKey(KeyCode.LeftWindows) && !Input.GetKey(KeyCode.RightWindows) && !Input.GetKey(KeyCode.LeftApple) && !Input.GetKey(KeyCode.RightApple) : InputManager.Instance.GetKey(KeyBindingActions.Jump) /*Input.GetKey(KeyCode.Space)*/);
+                    _frameworkInput.buttons.Set(NetworkInputData.Buttons.Jump, Playerguy.WaitForInput ? Input.anyKey && !Input.GetKey(KeyCode.LeftWindows) && !Input.GetKey(KeyCode.RightWindows) && !Input.GetKey(KeyCode.LeftApple) && !Input.GetKey(KeyCode.RightApple) : InputManager.Instance.GetKey(KeyBindingActions.Jump) /*Input.GetKey(KeyCode.Space)*/);
                     _frameworkInput.buttons.Set(NetworkInputData.Buttons.Sprint, InputManager.Instance.GetKey(KeyBindingActions.Sprint) /*Input.GetKey(KeyCode.LeftShift)*/);
                 }
             }

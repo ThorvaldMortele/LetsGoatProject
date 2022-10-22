@@ -224,6 +224,10 @@ public class Player : NetworkBehaviour
             var obj = FindObjectOfType<InGameUI>();
             if (obj != null)
                 obj.InitializeUI();
+
+            //runner.AddCallbacks(this);
+
+            FindObjectOfType<GameLauncher>().Playerguy = this;
         }
 
         // Getting this here because it will revert to -1 if the player disconnects, but we still want to remember the Id we were assigned for clean-up purposes

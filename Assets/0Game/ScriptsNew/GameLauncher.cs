@@ -202,6 +202,8 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     public async void OnHostMigration(NetworkRunner runner, HostMigrationToken hostMigrationToken)
     {
+        Debug.Log("Host migrating");
+
         await runner.Shutdown(shutdownReason: ShutdownReason.HostMigration);
 
         var newRunner = Instantiate(Runnerprefab);

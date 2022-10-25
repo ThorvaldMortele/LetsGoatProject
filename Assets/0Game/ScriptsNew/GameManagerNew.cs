@@ -456,14 +456,16 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
             yield return null;
         }
 
-        if (_localLeaveAfterLevel)
-        {
-            Restart(ShutdownReason.Ok);
+        ///i disabled this for now
+       
+        //if (_localLeaveAfterLevel)
+        //{
+        //    Restart(ShutdownReason.Ok);
 
-            //test
-            //LoadLevel(_levelManager.GetRandomLevelIndex());
-            yield break;
-        }
+        //    //test
+        //    //LoadLevel(_levelManager.GetRandomLevelIndex());
+        //    yield break;
+        //}
 
         _midGameRunning = false;
         Cursor.lockState = CursorLockMode.Locked;

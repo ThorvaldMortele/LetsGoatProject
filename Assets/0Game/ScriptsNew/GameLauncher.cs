@@ -80,8 +80,6 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     private void Start()
     {
-        //OnConnectionStatusUpdate(null, FusionLauncher.ConnectionStatus.Disconnected, "");
-
         Board = FindObjectOfType<BoardUI>();
     }
 

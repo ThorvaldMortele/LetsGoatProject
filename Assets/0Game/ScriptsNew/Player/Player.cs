@@ -24,7 +24,8 @@ public class Player : NetworkBehaviour
     }
 
     [Header("Movement")]
-    public GoatController CC;
+    //public GoatController CC;
+    public NetworkCharacterControllerPrototype CC;
     private float _turnSmoothVelocity;
     public float TurnSmoothTime = 0.1f;
     private float _targetAngle;
@@ -177,7 +178,7 @@ public class Player : NetworkBehaviour
 
     private void Awake()
     {
-        CC = GetComponent<GoatController>();
+        //CC = GetComponent<GoatController>();
         _audioManager = GetComponentInChildren<AudioManager>();
 
         Board = FindObjectOfType<BoardUI>();
@@ -508,10 +509,11 @@ public class Player : NetworkBehaviour
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void Rpc_BumpGoat(Player goat, Vector3 direction)
-    {        
+    {
         //Debug.LogWarning("Goat bumped");
 
-        goat.CC.Push(direction * _bumpSpeed, _bumpTime);
+        //goat.CC.Push(direction * _bumpSpeed, _bumpTime);
+        goat.CC.Controller.attachedRigidbody.AddForce(direction * _bumpSpeed, ForceMode.Impulse);
 
         PlayBumpParticle();
         goat.GoatBumpedGoat.Invoke(this, goat);
@@ -607,17 +609,17 @@ public class Player : NetworkBehaviour
 
             bool sprinting = ButtonsPrevious.IsSet(NetworkInputData.Buttons.Sprint);
 
-            if (CanMove && _moveDirection != Vector3.zero && sprinting)
+            if (CanMove && _moveDirection != Vector3.zero /*&& sprinting*/)
             {
                 if (_stamina > 0)
                 {
-                    if (CC.Sprinting)
+                    if (sprinting)
                     {
                         _stamina -= Runner.DeltaTime / _sprintTime;
                     }
                     else if (_stamina >= _minStaminaBeforeSprint)
                     {
-                        CC.Sprinting = true;
+                        //CC.Sprinting = true;
                         _stamina -= Runner.DeltaTime / _sprintTime;
                     }
                     else
@@ -627,13 +629,13 @@ public class Player : NetworkBehaviour
                 }
                 else
                 {
-                    CC.Sprinting = false;
+                    //CC.Sprinting = false;
                     _stamina += Runner.DeltaTime / _sprintRechargeTime;
                 }
             }
             else
             {
-                CC.Sprinting = false;
+                //CC.Sprinting = false;
                 _stamina += Runner.DeltaTime / _sprintRechargeTime;
             }
             _stamina = Mathf.Clamp(_stamina, 0, 1);
@@ -810,7 +812,9 @@ public class Player : NetworkBehaviour
         State = PlayerState.Active;
         CanJump = true;
         CanMove = true;
-        CC.ApplyGravity = true;
+        if (CC.Controller.attachedRigidbody != null)
+            CC.Controller.attachedRigidbody.useGravity = true;
+        
         WaitForInput = false;
     }
 

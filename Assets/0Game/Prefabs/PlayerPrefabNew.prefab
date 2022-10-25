@@ -199,8 +199,8 @@ GameObject:
   - component: {fileID: 1055820231997894720}
   - component: {fileID: 1055820231997894747}
   - component: {fileID: -8769204591487629244}
-  - component: {fileID: 2357788578969428047}
   - component: {fileID: 3463416368105150810}
+  - component: {fileID: 2571848013023687510}
   m_Layer: 6
   m_Name: PlayerPrefabNew
   m_TagString: Untagged
@@ -249,8 +249,8 @@ MonoBehaviour:
   NestedObjects: []
   NetworkedBehaviours:
   - {fileID: -8769204591487629244}
-  - {fileID: 2357788578969428047}
   - {fileID: 3463416368105150810}
+  - {fileID: 2571848013023687510}
   SimulationBehaviours: []
 --- !u!143 &1055820231997894747
 CharacterController:
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 2
-  CC: {fileID: 2357788578969428047}
+  CC: {fileID: 2571848013023687510}
   TurnSmoothTime: 0.1
   JumpPressed: 0
   _CanJump: 0
@@ -328,6 +328,7 @@ MonoBehaviour:
     _length: 0
     _data:
       Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _Score: 0
   _deathParticleObj: {fileID: 7194952087870367276, guid: a56fa166c27c1b64a90204cdc43a72fd, type: 3}
   _deathParticlePosition: {fileID: 5658008737942152655}
   _goatVisuals:
@@ -358,44 +359,7 @@ MonoBehaviour:
   _hatSlot: {fileID: 8411405352277769956}
   _mouthSlot: {fileID: 5238235283186837853}
   _backSlot: {fileID: 2202392234725205108}
---- !u!114 &2357788578969428047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055820231997894721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f916cef3ba55f6498cecdd006b951fa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 2
-  InterpolationSpace: 0
-  InterpolationTarget: {fileID: 7589798553677233991}
-  InterpolateErrorCorrection: 1
-  InterpolatedErrorCorrectionSettings:
-    MinRate: 3.3
-    MaxRate: 10
-    PosBlendStart: 0.25
-    PosBlendEnd: 1
-    PosMinCorrection: 0.025
-    PosTeleportDistance: 2
-    RotBlendStart: 0.1
-    RotBlendEnd: 0.5
-    RotTeleportRadians: 1.5
-  gravity: -30
-  jumpImpulse: 15
-  acceleration: 10000
-  braking: 100
-  maxSpeed: 12
-  rotationSpeed: 20
-  sprintMultiplier: 1.5
-  _IsGrounded: 0
-  _Velocity: {x: 0, y: 0, z: 0}
-  _ApplyGravity: 0
-  _Sprinting: 0
-  _MaxVelocityY: 0
+  Board: {fileID: 0}
 --- !u!114 &3463416368105150810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +373,40 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
+--- !u!114 &2571848013023687510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055820231997894721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 378411a89480da345945c2f888327a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  InterpolationSpace: 0
+  InterpolationTarget: {fileID: 1613747202907334172}
+  InterpolateErrorCorrection: 1
+  InterpolatedErrorCorrectionSettings:
+    MinRate: 3.3
+    MaxRate: 10
+    PosBlendStart: 0.25
+    PosBlendEnd: 1
+    PosMinCorrection: 0.025
+    PosTeleportDistance: 2
+    RotBlendStart: 0.1
+    RotBlendEnd: 0.5
+    RotTeleportRadians: 1.5
+  gravity: -30
+  jumpImpulse: 15
+  acceleration: 200
+  braking: 10
+  maxSpeed: 15
+  rotationSpeed: 15
+  _IsGrounded: 1
+  _Velocity: {x: 0, y: 0, z: 0}
 --- !u!1 &1055820232783276392
 GameObject:
   m_ObjectHideFlags: 0

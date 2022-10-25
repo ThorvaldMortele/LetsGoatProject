@@ -165,7 +165,7 @@ public class AlienAbduction : KillPoint
 
     private void GoatKillArea()
     {
-         if (!Object.HasStateAuthority) return;
+        if (!Object.HasStateAuthority) return;
 
         Collider[] colliders = new Collider[NetworkProjectConfig.Global.Simulation.DefaultPlayers];
         int found;

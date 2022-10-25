@@ -560,48 +560,48 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
 
     #region NetworkEvents
 
-    public static void OnMidGameTimerChanged(Changed<GameManagerNew> changed)
-    {
-        if (changed.Behaviour)
-        {
-            changed.Behaviour.OnMidGameTimerChanged();
-        }
-    }
+    //public static void OnMidGameTimerChanged(Changed<GameManagerNew> changed)
+    //{
+    //    if (changed.Behaviour)
+    //    {
+    //        changed.Behaviour.OnMidGameTimerChanged();
+    //    }
+    //}
 
-    private void OnMidGameTimerChanged()
-    {
-        if (!_midGameRunning)
-        {
-            StartCoroutine(MidGame());
-        }
-    }
+    //private void OnMidGameTimerChanged()
+    //{
+    //    if (!_midGameRunning)
+    //    {
+    //        StartCoroutine(MidGame());
+    //    }
+    //}
 
-    public static void OnLevelTimerChanged(Changed<GameManagerNew> changed)
-    {
-        if (changed.Behaviour)
-        {
-            changed.Behaviour.OnLevelTimerChanged();
-        }
-    }
+    //public static void OnLevelTimerChanged(Changed<GameManagerNew> changed)
+    //{
+    //    if (changed.Behaviour)
+    //    {
+    //        changed.Behaviour.OnLevelTimerChanged();
+    //    }
+    //}
 
-    private void OnLevelTimerChanged()
-    {
-        StartCoroutine(LevelTimer());
-    }
+    //private void OnLevelTimerChanged()
+    //{
+    //    StartCoroutine(LevelTimer());
+    //}
 
-    public static void OnLeaveAfterLevelChanged(Changed<GameManagerNew> changed)
-    {
-        if (changed.Behaviour)
-        {
-            changed.Behaviour.OnLeaveAfterLevelChanged();
-        }
-    }
+    //public static void OnLeaveAfterLevelChanged(Changed<GameManagerNew> changed)
+    //{
+    //    if (changed.Behaviour)
+    //    {
+    //        changed.Behaviour.OnLeaveAfterLevelChanged();
+    //    }
+    //}
 
-    private void OnLeaveAfterLevelChanged()
-    {
-        //_localLeaveAfterLevel = LeaveAfterLevel;
-        Debug.LogError($"_localLeaveAfterLevel: {_localLeaveAfterLevel}");
-    }
+    //private void OnLeaveAfterLevelChanged()
+    //{
+    //    //_localLeaveAfterLevel = LeaveAfterLevel;
+    //    Debug.LogError($"_localLeaveAfterLevel: {_localLeaveAfterLevel}");
+    //}
 
     #endregion
 

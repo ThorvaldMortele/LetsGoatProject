@@ -24,7 +24,6 @@ public class Player : NetworkBehaviour
     }
 
     [Header("Movement")]
-    //public GoatController CC;
     public NetworkCharacterControllerPrototype CC;
     private float _turnSmoothVelocity;
     public float TurnSmoothTime = 0.1f;
@@ -812,8 +811,8 @@ public class Player : NetworkBehaviour
         State = PlayerState.Active;
         CanJump = true;
         CanMove = true;
-        if (CC.Controller.attachedRigidbody != null)
-            CC.Controller.attachedRigidbody.useGravity = true;
+
+        
         
         WaitForInput = false;
     }

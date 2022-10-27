@@ -28,15 +28,15 @@ public class GameLauncher : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField] public GameObject LoadingScreen;
     [SerializeField] private GameObject _memberidObj;
-    [SerializeField] private GameObject _playHostClientButton;
-    [SerializeField] private GameObject _playSharedButton;
-    [SerializeField] private GameObject _leaderboardObj;
+    //[SerializeField] private GameObject _playHostClientButton;
+    //[SerializeField] private GameObject _playSharedButton;
+    //[SerializeField] private GameObject _leaderboardObj;
 
     public string UsernameHolder;
-    [SerializeField] private GameObject _objectiveText;
-    [SerializeField] private GameObject _skinObj;
-    [SerializeField] private GameObject _quitButtonobj;
-    [SerializeField] private GameObject _leaveButtonobj;
+    //[SerializeField] private GameObject _objectiveText;
+    //[SerializeField] private GameObject _skinObj;
+    //[SerializeField] private GameObject _quitButtonobj;
+    //[SerializeField] private GameObject _leaveButtonobj;
 
     [SerializeField] private LoadingScreen _loadingscreen;
     [SerializeField] private LoadingGoat _loadingGoat;

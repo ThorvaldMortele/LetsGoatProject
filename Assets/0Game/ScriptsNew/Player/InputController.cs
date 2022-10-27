@@ -9,7 +9,7 @@ public class InputController : NetworkBehaviour, INetworkRunnerCallbacks
 {
     public static bool fetchInput = true;
 
-    private Player _player;
+    private Goat _player;
     private NetworkInputData _frameworkInput;
     private Vector3 _moveDelta;
 

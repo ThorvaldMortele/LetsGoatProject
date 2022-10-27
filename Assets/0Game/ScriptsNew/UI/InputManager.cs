@@ -76,7 +76,9 @@ public class InputManager : MonoBehaviour
                     go.GetComponent<NameHolder>().ActionName = kbc.Keybindingaction.ToString();
                     go.name = kbc.Keybindingaction.ToString();
 
+                    ControlsObjs.Remove(Obj);
                     Destroy(Obj);
+                    ControlsObjs.Add(go);
                 }
             }
         }

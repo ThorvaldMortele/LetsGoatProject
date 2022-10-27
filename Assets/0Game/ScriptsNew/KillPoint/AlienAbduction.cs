@@ -1,17 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using ExitGames.Client.Photon.StructWrapping;
 using Fusion;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-[OrderAfter(typeof(Player))]
+[OrderAfter(typeof(Goat))]
 public class AlienAbduction : KillPoint
 {
     [Networked(OnChanged = nameof(OnPlayerInBeamChanged))]
-    private Player PlayerInBeam { get; set; }
+    private Goat PlayerInBeam { get; set; }
 
-    private Player _previousPlayer;
+    private Goat _previousPlayer;
 
     [SerializeField]
     private Transform _beamAttractTransform;
@@ -32,7 +33,7 @@ public class AlienAbduction : KillPoint
     private int _mashesForFullSpeed = 10;
 
     private Vector3 _goatStartPosition;
-    private CharacterController _cc;
+    private NetworkCharacterControllerPrototype _cc;
 
     [SerializeField]
     private BezierSpline _spline;
@@ -101,8 +102,8 @@ public class AlienAbduction : KillPoint
             return;
         }
 
-        Player player = colliders[0].transform.root.GetComponent<Player>();
-        if (player.State != Player.PlayerState.Active) return;
+        Goat player = colliders[0].transform.root.GetComponent<Goat>();
+        if (player.State != Goat.PlayerState.Active) return;
 
         SetPlayer(player);
 
@@ -142,7 +143,7 @@ public class AlienAbduction : KillPoint
 
         if (PlayerInBeam.Object.HasStateAuthority)
         {
-            CharacterController cc = PlayerInBeam.GetComponent<CharacterController>();
+            NetworkCharacterControllerPrototype cc = PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>();
 
             Vector3 toBeam = _beamAttractTransform.position - PlayerInBeam.transform.position;
             toBeam.y = 0;
@@ -180,10 +181,10 @@ public class AlienAbduction : KillPoint
         {
             for (int i = 0; i < found; i++)
             {
-                Player foundGoat = colliders[i].GetComponent<Player>();
+                Goat foundGoat = colliders[i].GetComponent<Goat>();
                 if (foundGoat == PlayerInBeam)
                 {
-                    if (PlayerInBeam.State == Player.PlayerState.Active)
+                    if (PlayerInBeam.State == Goat.PlayerState.Active)
                     {
                         return;
                     }
@@ -195,8 +196,8 @@ public class AlienAbduction : KillPoint
         //bool newFound = false;
         for (int i = 0; i < found; i++)
         {
-            Player player = colliders[i].GetComponent<Player>();
-            if (player != null && player.State == Player.PlayerState.Active)
+            Goat player = colliders[i].GetComponent<Goat>();
+            if (player != null && player.State == Goat.PlayerState.Active)
             {
                 //newFound = true;
                 SetPlayer(player);
@@ -237,8 +238,8 @@ public class AlienAbduction : KillPoint
             if (PlayerInBeam != null)
             {
                 PlayerInBeam.CanMove = false;
-                PlayerInBeam.GetComponent<GoatController>().ApplyGravity = false;
-                _cc = PlayerInBeam.GetComponent<CharacterController>();
+                PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>().gravity = 0;
+                _cc = PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>();
                 _goatStartPosition = PlayerInBeam.transform.position;
             }
         }
@@ -255,11 +256,11 @@ public class AlienAbduction : KillPoint
         {
             if (PlayerInBeam != null)
             {
-                PlayerInBeam.GetComponent<GoatController>().ApplyGravity = true;
+                PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>().gravity = -30;
 
                 PlayerInBeam.SendUFOKillFeed();
 
-                Player.UFOPlayerEvent.Invoke(PlayerInBeam);
+                Goat.UFOPlayerEvent.Invoke(PlayerInBeam);
             }           
 
             KillPlayers();
@@ -271,7 +272,7 @@ public class AlienAbduction : KillPoint
             {
                 if (_cc == null)
                 {
-                    _cc = PlayerInBeam.GetComponent<CharacterController>();
+                    _cc = PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>();
                 }
                 _cc.enabled = false;
                 PlayerInBeam.transform.position = EaseBeamPosition();
@@ -295,11 +296,11 @@ public class AlienAbduction : KillPoint
     {
         if (PlayerInBeam == null) return;
 
-        GameManagerNew.Instance.KillPlayer(PlayerInBeam);
+        GameManager.Instance.KillPlayer(PlayerInBeam);
         PlayerInBeam = null;
     }
 
-    private void SetPlayer(Player player)
+    private void SetPlayer(Goat player)
     {
         if (!Object.HasStateAuthority) return;
         PlayerInBeam = player;

@@ -10,8 +10,6 @@ public class BoardUI : MonoBehaviour
 {
     public RowUI Rowui;
 
-    public ScoreManager Scoremanager;
-
     public List<GameObject> RowObjects = new List<GameObject>();
 
     public Dictionary<string, int> Scores;
@@ -23,7 +21,7 @@ public class BoardUI : MonoBehaviour
             Destroy(g);
         }
 
-        Scores = GameManagerNew.Instance.GameLeaderBoard.LeaderboardEntries;
+        Scores = GameManager.Instance.GameLeaderBoard.LeaderboardEntries;
 
         var tmp = Scores.OrderByDescending(x => x.Value);
 

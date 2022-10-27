@@ -15,8 +15,8 @@ public class Drinking : KillPoint
     private float _activeDelayMax = 10f;
 
     [Networked(OnChanged = nameof(OnGoatChanged))]
-    private Player Goat { get; set; }
-    private Player _previousGoat;
+    private Goat Goat { get; set; }
+    private Goat _previousGoat;
 
     [SerializeField]
     [Networked]
@@ -69,10 +69,10 @@ public class Drinking : KillPoint
             return;
         }
 
-        Player player = colliders[0].transform.root.GetComponent<Player>();
-        if (player.State != Player.PlayerState.Active) return;
+        Goat player = colliders[0].transform.root.GetComponent<Goat>();
+        if (player.State != Goat.PlayerState.Active) return;
 
-        SetGoat(colliders[0].GetComponent<Player>());
+        SetGoat(colliders[0].GetComponent<Goat>());
         if (_primedTime > 0)
         {
             State = KillState.Primed;
@@ -143,10 +143,10 @@ public class Drinking : KillPoint
         {
             for (int i = 0; i < found; i++)
             {
-                Player foundGoat = colliders[i].GetComponent<Player>();
+                Goat foundGoat = colliders[i].GetComponent<Goat>();
                 if (foundGoat == Goat)
                 {
-                    if (Goat.State == Player.PlayerState.Active)
+                    if (Goat.State == Goat.PlayerState.Active)
                     {
                         return;
                     }
@@ -157,8 +157,8 @@ public class Drinking : KillPoint
         bool newFound = false;
         for (int i = 0; i < found; i++)
         {
-            Player player = colliders[i].GetComponent<Player>();
-            if (player != null && player.State == Player.PlayerState.Active)
+            Goat player = colliders[i].GetComponent<Goat>();
+            if (player != null && player.State == Goat.PlayerState.Active)
             {
                 newFound = true;
                 SetGoat(player);
@@ -210,8 +210,8 @@ public class Drinking : KillPoint
     {
         if (Goat == null) return;
 
-        Player.DrinkingPlayerEvent.Invoke(Goat);
-        GameManagerNew.Instance.KillPlayer(Goat);
+        Goat.DrinkingPlayerEvent.Invoke(Goat);
+        GameManager.Instance.KillPlayer(Goat);
         Goat = null;
     }
 
@@ -222,7 +222,7 @@ public class Drinking : KillPoint
             if (Goat != null)
             {
                 Goat.SendDrinkingKillFeed();
-                Goat.GetComponent<GoatController>().ApplyGravity = true;
+                Goat.GetComponent<NetworkCharacterControllerPrototype>().gravity = -30;
             }
 
             KillPlayers();
@@ -259,7 +259,7 @@ public class Drinking : KillPoint
         }
     }
 
-    private void SetGoat(Player player)
+    private void SetGoat(Goat player)
     {
         if (!Object.HasStateAuthority) return;
         Goat = player;

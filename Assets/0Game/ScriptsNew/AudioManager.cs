@@ -12,13 +12,13 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        if (MasterVolumeSlider == null && Player.Local != null)
+        if (MasterVolumeSlider == null && Goat.Local != null)
             SetVolumeSlider();
     }
 
     public void SetVolumeSlider()
     {
-        MasterVolumeSlider = Player.Local.AudioSlider;
+        MasterVolumeSlider = Goat.Local.AudioSlider;
     }
 
     public void StopMusic()

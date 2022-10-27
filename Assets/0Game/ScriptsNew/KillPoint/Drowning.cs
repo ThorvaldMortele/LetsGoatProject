@@ -9,23 +9,19 @@ public class Drowning : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (GameManagerNew.PlayState != GameManagerNew.GamePlayState.Level) return;
-
         if (other.gameObject.layer.Equals(6))
         {
-            other.GetComponent<Player>().ProgressBar.transform.parent.gameObject.SetActive(true);
-            other.GetComponent<Player>().HasDrowned = false;
-            other.GetComponent<Player>().DrowningTimer = TickTimer.CreateFromSeconds(FindObjectOfType<NetworkRunner>(), _drowningTime);
+            other.GetComponent<Goat>().ProgressBar.transform.parent.gameObject.SetActive(true);
+            other.GetComponent<Goat>().HasDrowned = false;
+            other.GetComponent<Goat>().DrowningTimer = TickTimer.CreateFromSeconds(FindObjectOfType<NetworkRunner>(), _drowningTime);
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (GameManagerNew.PlayState != GameManagerNew.GamePlayState.Level) return;
-
         if (other.gameObject.layer.Equals(6))
         {
-            var player = other.GetComponent<Player>();
+            var player = other.GetComponent<Goat>();
 
             if (!player.HasDrowned)
             {
@@ -36,14 +32,14 @@ public class Drowning : MonoBehaviour
 
                 if (player.DrowningTimer.Expired(FindObjectOfType<NetworkRunner>()))
                 {
-                    Player.DrowningPlayerEvent.Invoke(player);
+                    Goat.DrowningPlayerEvent.Invoke(player);
 
                     player.SendDrowningKillFeed();
 
                     player.CanMove = false;
-                    other.GetComponent<GoatController>().ApplyGravity = true;
+                    other.GetComponent<NetworkCharacterControllerPrototype>().gravity = -30;
 
-                    GameManagerNew.Instance.KillPlayer(player);
+                    GameManager.Instance.KillPlayer(player);
                     player.HasDrowned = true;
                     player.ProgressBar.transform.parent.gameObject.SetActive(false);
                 }
@@ -53,12 +49,10 @@ public class Drowning : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (GameManagerNew.PlayState != GameManagerNew.GamePlayState.Level) return;
-
         if (other.gameObject.layer.Equals(6))
         {
-            other.GetComponent<Player>().DrowningTimer = TickTimer.None;
-            other.GetComponent<Player>().ProgressBar.transform.parent.gameObject.SetActive(false);
+            other.GetComponent<Goat>().DrowningTimer = TickTimer.None;
+            other.GetComponent<Goat>().ProgressBar.transform.parent.gameObject.SetActive(false);
         }
     }
 }

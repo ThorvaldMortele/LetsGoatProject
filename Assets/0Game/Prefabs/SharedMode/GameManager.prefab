@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &861316030759126314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 861316030759126327}
+  - component: {fileID: 861316030759126324}
+  - component: {fileID: 861316030759126325}
+  - component: {fileID: 861316030759126326}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &861316030759126327
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861316030759126314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &861316030759126324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861316030759126314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a50865879dac2984d9b3ba5b1d3cb47b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  StartMenu: {fileID: 0}
+  Level1: {fileID: 0}
+  Level2: {fileID: 0}
+  _CurrentLevel: 4
+  LeaderBoardUI: {fileID: 0}
+  GameLeaderBoard: {fileID: 861316030759126326}
+  _loadingScreen: {fileID: 0}
+  _loadingGoat: {fileID: 0}
+  BeforeGameCanvas: {fileID: 0}
+  UsernameHolder: 
+  GoalManager: {fileID: 0}
+  _inGameUI: {fileID: 0}
+  _gameTimer: {fileID: 0}
+  _player1: {fileID: 0}
+  _player1Name: {fileID: 0}
+  _player2: {fileID: 0}
+  _player2Name: {fileID: 0}
+  _player3: {fileID: 0}
+  _player3Name: {fileID: 0}
+  DeathText: {fileID: 0}
+  _levelTime: 30
+  LevelTimeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  _TimerTextAnimation: {fileID: 0}
+  _midGameTime: 10
+  MasterVolumeSlider: {fileID: 0}
+--- !u!114 &861316030759126325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861316030759126314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectInterest: 0
+  DefaultInterestGroups: []
+  DestroyWhenStateAuthorityLeaves: 0
+  AllowStateAuthorityOverride: 1
+  AoiPositionSource: {fileID: 0}
+  Flags: 2305
+  NetworkGuid:
+    RawGuidValue: 0b7908a77c02daa48adf7c6f9cfe3cc7
+  NestedObjects: []
+  NetworkedBehaviours:
+  - {fileID: 861316030759126324}
+  - {fileID: 861316030759126326}
+  SimulationBehaviours: []
+--- !u!114 &861316030759126326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861316030759126314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d139b2a3de0eac54ba0d61e89cd0af4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0

@@ -21,7 +21,7 @@ public class FlyTrap : KillPoint
     [SerializeField]
     private float _activeDelayMax = 10f;
 
-    private List<Player> _players;
+    private List<Goat> _players;
 
     [SerializeField] private Transform _startRotation;
     [SerializeField] private Transform _endRotation;
@@ -34,7 +34,7 @@ public class FlyTrap : KillPoint
     private void Awake()
     {
         _maxOverlapRadius = _overlapRadius;
-        _players = new List<Player>(NetworkProjectConfig.Global.Simulation.DefaultPlayers);
+        _players = new List<Goat>(NetworkProjectConfig.Global.Simulation.DefaultPlayers);
         _radialProgressBar.transform.parent.gameObject.SetActive(false);
     }
 
@@ -80,8 +80,8 @@ public class FlyTrap : KillPoint
         bool activePlayers = false;
         for (int i = 0; i < number; i++)
         {
-            Player player = colliders[i].transform.root.GetComponent<Player>();
-            if (player.State == Player.PlayerState.Active)
+            Goat player = colliders[i].transform.root.GetComponent<Goat>();
+            if (player.State == Goat.PlayerState.Active)
             {
                 if (player.Object.HasInputAuthority)
                 {
@@ -119,7 +119,7 @@ public class FlyTrap : KillPoint
             return;
         }
 
-        foreach (Player player in _players)
+        foreach (Goat player in _players)
         {
             if (player.JumpPressed)
             {
@@ -151,8 +151,8 @@ public class FlyTrap : KillPoint
         bool activePlayers = false;
         for (int i = 0; i < number; i++)
         {
-            Player player = colliders[i].GetComponent<Player>();
-            if (player != null && player.State == Player.PlayerState.Active)
+            Goat player = colliders[i].GetComponent<Goat>();
+            if (player != null && player.State == Goat.PlayerState.Active)
             {
                 if (player.Object.HasInputAuthority)
                 {
@@ -189,12 +189,12 @@ public class FlyTrap : KillPoint
 
     protected override void KillPlayers()
     {
-        foreach (Player player in _players)
+        foreach (Goat player in _players)
         {
-            Player.FlyTrapPlayerEvent.Invoke(player);
+            Goat.FlyTrapPlayerEvent.Invoke(player);
 
             player.SendFlyTrapKillFeed();
-            GameManagerNew.Instance.KillPlayer(player);
+            GameManager.Instance.KillPlayer(player);
         }
         _players.Clear();
     }

@@ -73,7 +73,7 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
     [SerializeField]
     [Min(1)]
     private int _midGameTime = 10;
-    [Networked(OnChanged = nameof(OnMidGameTimerChanged))]
+    //[Networked(OnChanged = nameof(OnMidGameTimerChanged))]
     private TickTimer MidGameTickTimer { get; set; }
     private bool _midGameRunning = false;
     [SerializeField]
@@ -82,11 +82,11 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
     [SerializeField]
     [Min(1)]
     private int _levelTime = 15;
-    [Networked(OnChanged = nameof(OnLevelTimerChanged))]
+    //[Networked(OnChanged = nameof(OnLevelTimerChanged))]
     private TickTimer LevelTickTimer { get; set; }
     public UnityEvent<float> LevelTimeEvent = new UnityEvent<float>();
 
-    [Networked(OnChanged = nameof(OnLeaveAfterLevelChanged))]
+    //[Networked(OnChanged = nameof(OnLeaveAfterLevelChanged))]
     private bool LeaveAfterLevel { get; set; }
     private bool _localLeaveAfterLevel = false;
     private PlayerRef _previousMaster = PlayerRef.None;
@@ -186,28 +186,7 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
         GameLeaderBoard.LeaderboardEntries.Add(name, score);
     }
 
-    private void LeaderboardName(GameObject player, TextMeshProUGUI playerName, int index, IOrderedEnumerable<KeyValuePair<string, int>> scores, int reward)
-    {
-        if (scores == null)
-        {
-            player.SetActive(false);
-            return;
-        }
-
-        if (index < scores.Count())
-        {
-            player.SetActive(true);
-            playerName.text = (index + 1) + ". " + scores.ElementAt(index).Key;
-            if (GetPlayerByName(scores.ElementAt(index).Key) == Player.Local)
-            {
-                FindObjectOfType<GoatbuxManager>().AddGoatbux(reward);
-            }
-        }
-        else
-        {
-            player.SetActive(false);
-        }
-    }
+        
 
     public void SetLeaderboard(BoardUI board)
     {
@@ -424,9 +403,9 @@ public class GameManagerNew : NetworkBehaviour/*, IStateAuthorityChanged*/
             if (Boardui.Scores.ElementAt(0).Key == string.Empty) return;
 
             var scores = Boardui.Scores.OrderByDescending(x => x.Value);
-            LeaderboardName(_player1, _player1Name, 0, scores, 50);
-            LeaderboardName(_player2, _player2Name, 1, scores, 30);
-            LeaderboardName(_player3, _player3Name, 2, scores, 20);
+            //LeaderboardName(_player1, _player1Name, 0, scores, 50);
+            //LeaderboardName(_player2, _player2Name, 1, scores, 30);
+            //LeaderboardName(_player3, _player3Name, 2, scores, 20);
         }
 
         if (!_midGameRunning)

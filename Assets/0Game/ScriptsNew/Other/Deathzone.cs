@@ -17,8 +17,8 @@ public class Deathzone : MonoBehaviour
 
         if (other.gameObject.layer.Equals(6))
         {
-            if (GameManagerNew.Instance != null)
-                GameManagerNew.Instance.KillPlayerOutOfBounds(other.GetComponent<Player>());
+            if (GameManager.Instance != null)
+                GameManager.Instance.KillPlayerOutOfBounds(other.GetComponent<Goat>());
         }
     }
 }

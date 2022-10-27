@@ -28,7 +28,7 @@ public class TimerUpdater : MonoBehaviour
 
     private IEnumerator WaitForGameManager()
     {
-        yield return new WaitUntil(() => GameManagerNew.Instance != null);
-        GameManagerNew.Instance.LevelTimeEvent.AddListener(UpdateTimer);
+        yield return new WaitUntil(() => GameManager.Instance != null);
+        GameManager.Instance.LevelTimeEvent.AddListener(UpdateTimer);
     }
 }

@@ -37,24 +37,24 @@ public class InGameUI : MonoBehaviour
     {
         Debug.LogWarning("Loaded " + this);
 
-        if (Player.Local != null) InitializeUI();
+        if (Goat.Local != null) InitializeUI();
     }
 
     public void InitializeUI()
     {
         _executed = false;
 
-        Player.Local.AudioSlider = _masterAudioSlider;
+        Goat.Local.AudioSlider = _masterAudioSlider;
 
-        _playerAudioManager = Player.Local.GetComponentInChildren<AudioManager>();
+        _playerAudioManager = Goat.Local.GetComponentInChildren<AudioManager>();
 
         _playerAudioManager.SetupAudio(_masterAudioSlider);
 
-        Player.Local.AudioSlider.onValueChanged.AddListener(delegate { Player.Local.ChangePlayerVolume(_masterAudioSlider); });
+        Goat.Local.AudioSlider.onValueChanged.AddListener(delegate { Goat.Local.ChangePlayerVolume(_masterAudioSlider); });
 
         LoadOtherSettings();
 
-        StartCoroutine(Delay());
+        //StartCoroutine(Delay());
 
         if (InputManager.Instance.ControlsObjs[0] == null)
         {
@@ -65,33 +65,27 @@ public class InGameUI : MonoBehaviour
         InputManager.Instance.SetupControls();
         _settingsObj.SetActive(false);
 
-        StartCoroutine(DelaySetLeaveButton());
+        //StartCoroutine(DelaySetLeaveButton());
     }
 
     private IEnumerator DelaySetLeaveButton()
     {
         yield return new WaitForSeconds(1);
 
-        GameManagerNew.Instance.SetLeaveButton();
+        //GameManager.Instance.SetLeaveButton();
     }
 
     private void Update()
     {
         //kicks the player for being afk or when it didnt successfully remove him from the game
-        if (Player.Local != null)
-            Player.Local._timeSinceInput += Time.deltaTime;
+        if (Goat.Local != null)
+            Goat.Local.TimeSinceInput += Time.deltaTime;
 
 #if !UNITY_EDITOR
-        if (Player.Local._timeSinceInput >= 60f)
-        {
-            Player.Local._timeSinceInput = 0;
-            GameManagerNew.Instance.Restart(ShutdownReason.Ok);
-        }
-
-        //if (!Application.isFocused && !_executed)
+        //if (Goat.Local._timeSinceInput >= 60f)
         //{
-            //_executed = true;
-            //GameManagerNew.Instance.Restart(ShutdownReason.Ok);
+        //    Goat.Local._timeSinceInput = 0;
+        //    GameManagerNew.Instance.Restart(ShutdownReason.Ok);
         //}
 #endif
 
@@ -115,12 +109,12 @@ public class InGameUI : MonoBehaviour
         }
     }
 
-    private IEnumerator Delay()
-    {
-        yield return new WaitForSeconds(2f);
+    //private IEnumerator Delay()
+    //{
+        //yield return new WaitForSeconds(2f);
 
-        GameManagerNew.Instance.DisableLoadingScreen();
-    }
+        //GameManager.Instance.DisableLoadingScreen();
+    //}
 
     public void UpdateCameraZoom()
     {
@@ -158,9 +152,9 @@ public class InGameUI : MonoBehaviour
 
     public void UpdateUsernamesStatus()
     {
-        var players = PlayerManager.AllPlayers;
+        var players = GoatManager.AllPlayers;
 
-        foreach (Player p in players)
+        foreach (Goat p in players)
         {
             if (p.UsernameText != null)
                 p.UsernameText.enabled = _usernamesOn.isOn;
@@ -204,7 +198,7 @@ public class InGameUI : MonoBehaviour
     public void LeaveGame()
     {
         _playerAudioManager.Play("Click");
-        GameManagerNew.Instance.Restart(ShutdownReason.Ok);
+        //GameManager.Instance.Restart(ShutdownReason.Ok);
     }
 
     public void SettingsMenu()

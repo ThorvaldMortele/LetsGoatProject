@@ -26,8 +26,6 @@ public class RaycastUI : MonoBehaviour
     private void OnApplicationFocus(bool focus)
     {
         _globalFocus = focus;
-
-        Debug.Log(_globalFocus);
     }
 
 

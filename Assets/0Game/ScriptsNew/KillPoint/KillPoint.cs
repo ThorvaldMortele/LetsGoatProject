@@ -65,16 +65,16 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
         Debug.Log($"KillPoint {name} {Object.Id} Spawned");
         StartInActive();
         OnStateChanged();
-        if (GameManagerNew.PlayState != GameManagerNew.GamePlayState.Lobby)
+        if (GameManager.Instance.CurrentLevel != GameManager.Levels.None)
         {
-            GameManagerNew.LevelOverEvent.AddListener(StopRunning);
+            GameManager.LevelOverEvent.AddListener(StopRunning);
         }
     }
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
         Debug.Log($"KillPoint {name} {Object.Id} Despawned");
-        GameManagerNew.LevelOverEvent.RemoveListener(StopRunning);
+        GameManager.LevelOverEvent.RemoveListener(StopRunning);
     }
 
     private void StopRunning()
@@ -201,10 +201,10 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
         Collider[] colliders = new Collider[NetworkProjectConfig.Global.Simulation.DefaultPlayers];
         if ((found = FindGoats(colliders)) <= 0) return;
 
-        GameManagerNew gameManager = GameManagerNew.Instance;
+        GameManager gameManager = GameManager.Instance;
         for (int i = 0; i < found; i++)
         {
-            gameManager.KillPlayer(colliders[i].GetComponent<Player>());
+            gameManager.KillPlayer(colliders[i].GetComponent<Goat>());
         }
     }
 

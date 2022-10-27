@@ -50,14 +50,7 @@ MonoBehaviour:
   _startCanvas: {fileID: 7749104557164127623}
   LoadingScreen: {fileID: 0}
   _memberidObj: {fileID: 7749104557838082788}
-  _playHostClientButton: {fileID: 0}
-  _playSharedButton: {fileID: 7749104557109965654}
-  _leaderboardObj: {fileID: 0}
   UsernameHolder: 
-  _objectiveText: {fileID: 0}
-  _skinObj: {fileID: 0}
-  _quitButtonobj: {fileID: 0}
-  _leaveButtonobj: {fileID: 0}
   _loadingscreen: {fileID: 3985789558441264323}
   _loadingGoat: {fileID: 3078430137746116860}
   DeathText: {fileID: 0}
@@ -68,6 +61,7 @@ MonoBehaviour:
   MasterVolumeSlider: {fileID: 0}
   Board: {fileID: 0}
   Runnerprefab: {fileID: 293566232924851135, guid: 0b7a4c5f7a751d64fb898c9ea368cc0a, type: 3}
+  Playerguy: {fileID: 0}
 --- !u!1001 &7749104556636919239
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -348,6 +342,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: StartScreen
       objectReference: {fileID: 0}
+    - target: {fileID: 1901165565036995034, guid: f0eadc2ed386a464e8e547160bb28f5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6300058950974679162, guid: f0eadc2ed386a464e8e547160bb28f5d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7654314219074920997, guid: f0eadc2ed386a464e8e547160bb28f5d, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -282.2
@@ -375,11 +377,6 @@ Canvas:
 --- !u!1 &7749104557838082788 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1227681613689115574, guid: f0eadc2ed386a464e8e547160bb28f5d, type: 3}
-  m_PrefabInstance: {fileID: 8828111237292978514}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7749104557109965654 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1227681614031290884, guid: f0eadc2ed386a464e8e547160bb28f5d, type: 3}
   m_PrefabInstance: {fileID: 8828111237292978514}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &3985789558441264323 stripped

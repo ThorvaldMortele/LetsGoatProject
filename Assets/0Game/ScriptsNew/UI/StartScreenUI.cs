@@ -39,7 +39,7 @@ public class StartScreenUI : MonoBehaviour
     [SerializeField] private GameObject _infoScreen;
 
     [SerializeField] private GameObject _adRewardAlert;
-    private GameLauncher _gameLauncher;
+    private NetworkConnection _networkConnection;
 
     private bool _isSecondTime;
     [SerializeField] private TextAsset _badWords;
@@ -70,15 +70,13 @@ public class StartScreenUI : MonoBehaviour
 
     private void Awake()
     {
-        _gameLauncher = FindObjectOfType<GameLauncher>();
+        _networkConnection = FindObjectOfType<NetworkConnection>();
 
         BadWords.CensoredWords = _badWords;
     }
 
     private void Start()
     {
-        Debug.LogWarning("Loaded " + this);
-
         UpdateGoatBuxAmount();
 
         _isSecondTime = PlayerPrefs.HasKey("IsSecondTime");
@@ -189,7 +187,7 @@ public class StartScreenUI : MonoBehaviour
     {
         if (_usernameField.text.Length < 3 || _usernameField.text.Length > 12)
         {
-            FindObjectOfType<GameLauncher>().HasExceededNameCharLimit = true;
+            FindObjectOfType<NetworkConnection>().HasExceededNameCharLimit = true;
 
             if (_usernameCensorWarningObj.activeInHierarchy) _usernameCensorWarningObj.SetActive(false);
 
@@ -199,12 +197,12 @@ public class StartScreenUI : MonoBehaviour
         }
         else
         {
-            FindObjectOfType<GameLauncher>().HasExceededNameCharLimit = false;
+            FindObjectOfType<NetworkConnection>().HasExceededNameCharLimit = false;
         }
 
         if (BadWords.CensoredWords.text.Contains(_usernameField.text))
         {
-            FindObjectOfType<GameLauncher>().HasUsedInvalidName = true;
+            FindObjectOfType<NetworkConnection>().HasUsedInvalidName = true;
 
             if (_usernameLengthWarningObj.activeInHierarchy) _usernameLengthWarningObj.SetActive(false);
 
@@ -214,7 +212,7 @@ public class StartScreenUI : MonoBehaviour
         }
         else
         {
-            FindObjectOfType<GameLauncher>().HasUsedInvalidName = false;
+            FindObjectOfType<NetworkConnection>().HasUsedInvalidName = false;
         }
     }
 
@@ -230,12 +228,13 @@ public class StartScreenUI : MonoBehaviour
     public void ClaimAdReward()
     {
         _adRewardAlert.SetActive(false);
-        _gameLauncher.ClaimAdReward();
+        GameManager.Instance.ClaimAdReward();
     }
 
     private void CheckAdReward()
     {
-        _adRewardAlert.SetActive(_gameLauncher.CanClaimAdReward());
+        if (GameManager.Instance != null && _adRewardAlert != null)
+            _adRewardAlert.SetActive(GameManager.Instance.CanClaimAdReward());
     }
 
     public void UpdateGoatBux(int amount)

@@ -15,16 +15,11 @@ public class LevelBehaviour : MonoBehaviour
         public List<Transform> SpawnPoints;
     }
 
-    private RespawnPoint[] _playeRespawnPoints;
+    private RespawnPoint[] _playerRespawnPoints;
     [SerializeField]
     private List<KillPointSpawn> _killPointSpawns = new List<KillPointSpawn>();
 
     private List<NetworkObject> _killPoints = new List<NetworkObject>();
-
-    private void Awake()
-    {
-        _playeRespawnPoints = GetComponentsInChildren<RespawnPoint>(true);
-    }
 
     public void Activate(NetworkRunner runner)
     {
@@ -33,7 +28,9 @@ public class LevelBehaviour : MonoBehaviour
 
     public RespawnPoint GetPlayerSpawnPoint()
     {
-        return _playeRespawnPoints[Random.Range(0, _playeRespawnPoints.Length)];
+        _playerRespawnPoints = GetComponentsInChildren<RespawnPoint>(true);
+
+        return _playerRespawnPoints[Random.Range(0, _playerRespawnPoints.Length)];
     }
 
     public void RequestKillPointAuthority()

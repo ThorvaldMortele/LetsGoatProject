@@ -15,7 +15,7 @@ public class TNT : KillPoint
     private Transform _radialTransform;
 
     [Networked(OnChanged = nameof(OnHeldByChanged))]
-    private Player HeldBy { get; set; }
+    private Goat HeldBy { get; set; }
 
     [SerializeField]
     private float _activeDelayMin = 2f;
@@ -32,12 +32,11 @@ public class TNT : KillPoint
             {
                 if (!_hasExecuted)
                 {
-                    GameManagerNew.Instance.PlayBombBeep(true, HeldBy);
+                    GameManager.Instance.PlayBombBeep(true, HeldBy);
                     _hasExecuted = true;
                 }
                 
-                _tnt.position = HeldBy.HoldTransform.position;
-                _tnt.rotation = HeldBy.HoldTransform.rotation;
+                _tnt.SetPositionAndRotation(HeldBy.HoldTransform.position, HeldBy.HoldTransform.rotation);
                 _radialTransform.position = _tnt.position;
             }
             else
@@ -77,15 +76,15 @@ public class TNT : KillPoint
                 return;
             }
 
-            Player player = colliders[0].transform.root.GetComponent<Player>();
-            if (player.State == Player.PlayerState.Active)
+            Goat player = colliders[0].transform.root.GetComponent<Goat>();
+            if (player.State == Goat.PlayerState.Active)
             {
                 HeldBy = player;
             }
         }
     }
 
-    private void GoatBumpedGoat(Player newGoat, Player oldGoat)
+    private void GoatBumpedGoat(Goat newGoat, Goat oldGoat)
     {
         Debug.LogWarning("Bumped goat with TNT");
         if (oldGoat == HeldBy)
@@ -108,7 +107,7 @@ public class TNT : KillPoint
             StartKilling();
         }
 
-        if (HeldBy != null && HeldBy.State != Player.PlayerState.Active)
+        if (HeldBy != null && HeldBy.State != Goat.PlayerState.Active)
         {
             HeldBy.GoatBumpedGoat.RemoveListener(GoatBumpedGoat);
             HeldBy = null;
@@ -121,9 +120,9 @@ public class TNT : KillPoint
         if (HeldBy != null)
         {
             HeldBy.SendTNTKillFeed();
-            GameManagerNew.Instance.PlayBombBeep(false, HeldBy);
-            GameManagerNew.Instance.KillPlayer(HeldBy);
-            Player.TNTPlayerEvent.Invoke(HeldBy);
+            GameManager.Instance.PlayBombBeep(false, HeldBy);
+            GameManager.Instance.KillPlayer(HeldBy);
+            Goat.TNTPlayerEvent.Invoke(HeldBy);
             HeldBy.GoatBumpedGoat.RemoveListener(GoatBumpedGoat);
             HeldBy = null;
         }

@@ -198,11 +198,11 @@ GameObject:
   - component: {fileID: 1055820231997894751}
   - component: {fileID: 1055820231997894720}
   - component: {fileID: 1055820231997894747}
-  - component: {fileID: -8769204591487629244}
   - component: {fileID: 3463416368105150810}
   - component: {fileID: 2571848013023687510}
+  - component: {fileID: 490218238661698224}
   m_Layer: 6
-  m_Name: PlayerPrefabNew
+  m_Name: Goat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -248,9 +248,9 @@ MonoBehaviour:
     RawGuidValue: eb6ef4922411bb945af3bd7593d21d8d
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: -8769204591487629244}
   - {fileID: 3463416368105150810}
   - {fileID: 2571848013023687510}
+  - {fileID: 490218238661698224}
   SimulationBehaviours: []
 --- !u!143 &1055820231997894747
 CharacterController:
@@ -270,96 +270,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.8, z: 0}
---- !u!114 &-8769204591487629244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1055820231997894721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fe14c90f1bfc9f4894124d810b905f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 2
-  CC: {fileID: 2571848013023687510}
-  TurnSmoothTime: 0.1
-  JumpPressed: 0
-  _CanJump: 0
-  _CanMove: 0
-  _groundCheck: {fileID: 7589798553677233991}
-  _groundDistance: 0.4
-  _groundMask:
-    serializedVersion: 2
-    m_Bits: 9
-  _sprintTime: 2
-  _sprintRechargeTime: 2
-  _minStaminaBeforeSprint: 0.5
-  _staminaEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3200140371455976870}
-        m_TargetAssemblyTypeName: RadialProgressBar, Assembly-CSharp
-        m_MethodName: UpdateProgress
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _camPrefab: {fileID: 9057383188722534462, guid: bd59b99217ff7554e89aa4658f7f77e2, type: 3}
-  _bumpTransform: {fileID: 370151268291837985}
-  _bumpRadius: 1
-  _bumpMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _bumpSpeed: 20
-  _bumpTime: 0.5
-  _bumpDelay: 0.2
-  ProgressBar: {fileID: 1337895573133047536}
-  _animator: {fileID: 4649124747847646310}
-  UsernameText: {fileID: 1667546710225332559}
-  _textCanvas: {fileID: 4291175592217892264}
-  _Username:
-    _length: 0
-    _data:
-      Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  _Score: 0
-  _deathParticleObj: {fileID: 7194952087870367276, guid: a56fa166c27c1b64a90204cdc43a72fd, type: 3}
-  _deathParticlePosition: {fileID: 5658008737942152655}
-  _goatVisuals:
-  - {fileID: 3866451654953859036}
-  - {fileID: 1277398032543365540}
-  - {fileID: 9141773643564149219}
-  HasDrowned: 0
-  _personalUi: {fileID: 6448559626543870750}
-  _bumpPrefab: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
-  _bumpParticleTransform: {fileID: 5658008737942152655}
-  _holdTransform: {fileID: 885552878460215666}
-  GoatBumpedGoat:
-    m_PersistentCalls:
-      m_Calls: []
-  _State: 0
-  _NameFromPlayer:
-    _items: []
-  PressedE: 0
-  HasSetLeaderboard: 0
-  _deathText: {fileID: 3061453107461319786}
-  _respawnTimer: {fileID: 3902581113852890823}
-  _respawnTimerText: {fileID: 8271494249268435194}
-  _pressAny: {fileID: 6579763164526676022}
-  _banner: {fileID: 4370575459896197439}
-  WaitForInput: 0
-  AudioSlider: {fileID: 0}
-  _timeSinceInput: 0
-  _hatSlot: {fileID: 8411405352277769956}
-  _mouthSlot: {fileID: 5238235283186837853}
-  _backSlot: {fileID: 2202392234725205108}
-  Board: {fileID: 0}
 --- !u!114 &3463416368105150810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -407,6 +317,93 @@ MonoBehaviour:
   rotationSpeed: 15
   _IsGrounded: 1
   _Velocity: {x: 0, y: 0, z: 0}
+--- !u!114 &490218238661698224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055820231997894721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c35ad575698e2f14bb109792038e4713, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  CC: {fileID: 2571848013023687510}
+  JumpPressed: 0
+  _CanJump: 0
+  _CanMove: 0
+  _groundCheck: {fileID: 7589798553677233991}
+  _groundDistance: 0.4
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _sprintTime: 2
+  _sprintRechargeTime: 2
+  _minStaminaBeforeSprint: 0.5
+  _staminaEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3200140371455976870}
+        m_TargetAssemblyTypeName: RadialProgressBar, Assembly-CSharp
+        m_MethodName: UpdateProgress
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _camPrefab: {fileID: 9057383188722534462, guid: bd59b99217ff7554e89aa4658f7f77e2, type: 3}
+  _bumpTransform: {fileID: 370151268291837985}
+  _bumpRadius: 1
+  _bumpMask:
+    serializedVersion: 2
+    m_Bits: 256
+  _bumpSpeed: 5
+  _bumpTime: 0.5
+  _bumpDelay: 0.2
+  ProgressBar: {fileID: 1337895573133047536}
+  _animator: {fileID: 4649124747847646310}
+  UsernameText: {fileID: 1667546710225332559}
+  _Username:
+    _length: 0
+    _data:
+      Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _Score: 0
+  _deathParticleObj: {fileID: 1750940742320366, guid: ec1383a81f8b26e41bd5795fba065567, type: 3}
+  _deathParticlePosition: {fileID: 7993120099158422945}
+  _goatVisuals:
+  - {fileID: 3866451654953859036}
+  - {fileID: 1277398032543365540}
+  - {fileID: 9141773643564149219}
+  _personalUi: {fileID: 6448559626543870750}
+  _bumpPrefab: {fileID: 100000, guid: 83cd9cc9f9c88824ba18dc59b05ae328, type: 3}
+  _bumpParticleTransform: {fileID: 5658008737942152655}
+  _holdTransform: {fileID: 885552878460215666}
+  GoatBumpedGoat:
+    m_PersistentCalls:
+      m_Calls: []
+  _State: 0
+  _NameFromPlayer:
+    _items: []
+  PressedE: 0
+  HasDrowned: 0
+  _deathText: {fileID: 3061453107461319786}
+  _respawnTimer: {fileID: 7022295457771372584}
+  _respawnTimerText: {fileID: 1216217420522784452}
+  _pressAny: {fileID: 6579763164526676022}
+  _banner: {fileID: 4370575459896197439}
+  WaitForInput: 0
+  TimeSinceInput: 0
+  _hatSlot: {fileID: 8411405352277769956}
+  _mouthSlot: {fileID: 5238235283186837853}
+  _backSlot: {fileID: 2202392234725205108}
+  AudioSlider: {fileID: 0}
+  Board: {fileID: 0}
 --- !u!1 &1055820232783276392
 GameObject:
   m_ObjectHideFlags: 0
@@ -2895,7 +2892,7 @@ GameObject:
   - component: {fileID: 4792311348544924976}
   - component: {fileID: 1667546710225332559}
   m_Layer: 6
-  m_Name: Text (TMP)
+  m_Name: Username
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3542,6 +3539,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 1949796600488922, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 224151153673722542, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
       propertyPath: m_Pivot.y
       value: 1
@@ -3667,9 +3668,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 329760975491706023, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 485943118214633359, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 485943118214633359, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1992674254170321449, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
       propertyPath: m_Layer
@@ -3690,6 +3699,10 @@ PrefabInstance:
     - target: {fileID: 7766081339600867710, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7766081339600867710, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8303226676588636968, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
       propertyPath: m_Pivot.x
@@ -3783,6 +3796,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 8615982494226183123, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9111533350079387188, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -3810,14 +3827,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99b2cb4240acca4bb062bc98cde8a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &3902581113852890823 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7766081339600867710, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
-  m_PrefabInstance: {fileID: 6768462791619289017}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8271494249268435194 stripped
+--- !u!114 &1216217420522784452 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3396885366697772867, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
+  m_CorrespondingSourceObject: {fileID: 5552575778837600637, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
   m_PrefabInstance: {fileID: 6768462791619289017}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -3826,6 +3838,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7022295457771372584 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4366905657679929233, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}
+  m_PrefabInstance: {fileID: 6768462791619289017}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6579763164526676022 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 485943118214633359, guid: 7a2b8665ff003c041a0296c6580a2a9e, type: 3}

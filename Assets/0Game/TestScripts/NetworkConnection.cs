@@ -218,9 +218,9 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        SpawnPlayer(runner, player);
-
         if (runner.LocalPlayer != player) return;
+
+        SpawnPlayer(runner, player);
 
         _startTimer = false;
 

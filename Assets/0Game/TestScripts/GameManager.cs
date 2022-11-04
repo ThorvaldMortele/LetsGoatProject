@@ -267,7 +267,7 @@ public class GameManager : NetworkBehaviour
             yield return null;
         }
 
-        if (CurrentLevel == Levels.Level1 || CurrentLevel == Levels.Level2)
+        if (CurrentLevel != Levels.InBetween || CurrentLevel != Levels.None || CurrentLevel != Levels.Void)
             LevelOver();
     }
 
@@ -324,6 +324,7 @@ public class GameManager : NetworkBehaviour
         Goat.Local.CC.TeleportToPosition(new Vector3(0, 50, 0));
         Goat.Local.CC.gravity = 0;
 
+        
         while (!_midGameTickTimer.ExpiredOrNotRunning(Runner))
         {
             float timer = _midGameTickTimer.RemainingTime(Runner).Value;

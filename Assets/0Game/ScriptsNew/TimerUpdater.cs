@@ -10,6 +10,13 @@ public class TimerUpdater : MonoBehaviour
 
     private void Awake()
     {
+        //_text = GetComponent<TextMeshProUGUI>();
+        //StartCoroutine(WaitForGameManager());
+    }
+
+    private void OnEnable()
+    {
+        _text.gameObject.transform.localScale = Vector3.one;
         _text = GetComponent<TextMeshProUGUI>();
         StartCoroutine(WaitForGameManager());
     }

@@ -145,7 +145,13 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     {
         Goat player = GoatManager.Get(playerref);
 
-        if (player != null) player.TriggerDespawn();
+        if (player != null) 
+        {
+            GameManager.Instance.RemoveScoreFromLeaderboard(player.Username.Value);
+            GameManager.Instance.SetLeaderboard(GameManager.Instance.LeaderBoardUI);
+
+            player.TriggerDespawn(); 
+        }
     }
 
     public void OnConnectedToServer(NetworkRunner runner)

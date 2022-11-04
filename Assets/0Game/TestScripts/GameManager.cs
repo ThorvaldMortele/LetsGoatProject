@@ -388,6 +388,14 @@ public class GameManager : NetworkBehaviour
         GameLeaderBoard.LeaderboardEntries.Add(name, score);
     }
 
+    public void RemoveScoreFromLeaderboard(string name)
+    {
+        if (GameLeaderBoard.LeaderboardEntries.ContainsKey(name))
+        {
+            GameLeaderBoard.LeaderboardEntries.Remove(name);
+        }
+    }
+
     public void SetLeaderboard(BoardUI board)
     {
         if (Goat.Local != null)
@@ -490,6 +498,7 @@ public class GameManager : NetworkBehaviour
         switch (CurrentLevel)
         {
             case Levels.Level1:
+                Debug.LogError("Level1 Loaded");
                 LoadLevel1();
 
                 StartLevelTimer();
@@ -502,6 +511,7 @@ public class GameManager : NetworkBehaviour
 
                 break;
             case Levels.Level2:
+                Debug.LogError("Level2 Loaded");
                 LoadLevel2();
 
                 StartLevelTimer();
@@ -513,6 +523,7 @@ public class GameManager : NetworkBehaviour
                 SetupPlayer();
                 break;
             case Levels.None:
+                Debug.LogError("Level none Loaded");
                 LoadStartMenu();
                 break;
             case Levels.InBetween:

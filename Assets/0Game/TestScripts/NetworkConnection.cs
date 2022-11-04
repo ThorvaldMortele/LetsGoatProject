@@ -123,7 +123,8 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
 
-        _currentRunner.Spawn(_gameManagerPrefab, Vector3.zero, Quaternion.identity);
+        if (_currentRunner.IsSharedModeMasterClient)
+            _currentRunner.Spawn(_gameManagerPrefab, Vector3.zero, Quaternion.identity);
     }
 
     

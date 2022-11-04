@@ -24,6 +24,10 @@ public class TimerUpdater : MonoBehaviour
             //0,28,65
             _text.color = Color.HSVToRGB(0.17f, 0.66f, 0.87f);
         }
+        else if (_text.color != Color.HSVToRGB(1,1,1) && timeSpan.Seconds > 10)
+        {
+            _text.color = Color.HSVToRGB(0,0,1);
+        }
     }
 
     private IEnumerator WaitForGameManager()

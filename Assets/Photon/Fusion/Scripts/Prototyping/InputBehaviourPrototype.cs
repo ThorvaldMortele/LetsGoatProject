@@ -13,55 +13,55 @@ public class InputBehaviourPrototype : Fusion.Behaviour, INetworkRunnerCallbacks
   public void OnInput(NetworkRunner runner, NetworkInput input) {
     var frameworkInput = new NetworkInputPrototype();
 
-    if (Input.GetKey(KeyCode.W)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FORWARD, true);
-    }
+    //if (Input.GetKey(KeyCode.W)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FORWARD, true);
+    //}
 
-    if (Input.GetKey(KeyCode.S)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_BACKWARD, true);
-    }
+    //if (Input.GetKey(KeyCode.S)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_BACKWARD, true);
+    //}
 
-    if (Input.GetKey(KeyCode.A)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_LEFT, true);
-    }
+    //if (Input.GetKey(KeyCode.A)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_LEFT, true);
+    //}
 
-    if (Input.GetKey(KeyCode.D)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RIGHT, true);
-    }
+    //if (Input.GetKey(KeyCode.D)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RIGHT, true);
+    //}
 
-    if (Input.GetKey(KeyCode.Space)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_JUMP, true);
-    }
+    //if (Input.GetKey(KeyCode.Space)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_JUMP, true);
+    //}
 
-    if (Input.GetKey(KeyCode.C)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_CROUCH, true);
-    }
+    //if (Input.GetKey(KeyCode.C)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_CROUCH, true);
+    //}
 
-    if (Input.GetKey(KeyCode.E)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION1, true);
-    }
+    //if (Input.GetKey(KeyCode.E)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION1, true);
+    //}
 
-    if (Input.GetKey(KeyCode.Q)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION2, true);
-    }
+    //if (Input.GetKey(KeyCode.Q)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION2, true);
+    //}
 
-    if (Input.GetKey(KeyCode.F)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION3, true);
-    }
+    //if (Input.GetKey(KeyCode.F)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION3, true);
+    //}
 
-    if (Input.GetKey(KeyCode.G)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION4, true);
-    }
+    //if (Input.GetKey(KeyCode.G)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_ACTION4, true);
+    //}
 
-    if (Input.GetKey(KeyCode.R)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RELOAD, true);
-    }
+    //if (Input.GetKey(KeyCode.R)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_RELOAD, true);
+    //}
 
-    if (Input.GetMouseButton(0)) {
-      frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FIRE, true);
-    }
+    //if (Input.GetMouseButton(0)) {
+    //  frameworkInput.Buttons.Set(NetworkInputPrototype.BUTTON_FIRE, true);
+    //}
 
-    input.Set(frameworkInput);
+    //input.Set(frameworkInput);
   }
 
   public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input) { }

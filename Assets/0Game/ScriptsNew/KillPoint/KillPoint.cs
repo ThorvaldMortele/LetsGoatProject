@@ -96,6 +96,8 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
 
     public override void FixedUpdateNetwork()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         //if (!Object.HasStateAuthority) return;
         if (!_running) return;
 
@@ -122,6 +124,8 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
 
     protected virtual void ActiveUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         Collider[] colliders = new Collider[1];
         if (FindGoats(colliders) <= 0) return;
 
@@ -160,6 +164,8 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
 
     protected virtual void PrimedUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Timer.Expired(Runner))
         {
             StartKilling();
@@ -168,6 +174,8 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
 
     protected virtual void StartKilling()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         KillPlayers();
         if (_killTime > 0)
         {
@@ -185,6 +193,8 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
 
     protected virtual void KillingUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Timer.Expired(Runner))
         {
             StartInActive();

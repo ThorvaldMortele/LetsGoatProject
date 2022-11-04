@@ -338,7 +338,7 @@ MonoBehaviour:
   _groundDistance: 0.4
   _groundMask:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 1
   _sprintTime: 2
   _sprintRechargeTime: 2
   _minStaminaBeforeSprint: 0.5
@@ -374,7 +374,7 @@ MonoBehaviour:
     _data:
       Data: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   _Score: 0
-  _deathParticleObj: {fileID: 1750940742320366, guid: ec1383a81f8b26e41bd5795fba065567, type: 3}
+  _deathParticleObj: {fileID: 7194952087870367276, guid: a56fa166c27c1b64a90204cdc43a72fd, type: 3}
   _deathParticlePosition: {fileID: 7993120099158422945}
   _goatVisuals:
   - {fileID: 3866451654953859036}
@@ -396,7 +396,7 @@ MonoBehaviour:
   _respawnTimer: {fileID: 7022295457771372584}
   _respawnTimerText: {fileID: 1216217420522784452}
   _pressAny: {fileID: 6579763164526676022}
-  _banner: {fileID: 4370575459896197439}
+  _deathBanner: {fileID: 4370575459896197439}
   WaitForInput: 0
   TimeSinceInput: 0
   _hatSlot: {fileID: 8411405352277769956}

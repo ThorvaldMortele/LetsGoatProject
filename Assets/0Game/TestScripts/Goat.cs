@@ -133,7 +133,7 @@ public class Goat : NetworkBehaviour
     [SerializeField]
     private GameObject _pressAny;
     [SerializeField]
-    private CrazyBanner _banner;
+    private CrazyBanner _deathBanner;
     private bool _bannerVisible = false;
 
     public static UnityEvent<Goat> KillPlayerEvent = new UnityEvent<Goat>();
@@ -252,14 +252,13 @@ public class Goat : NetworkBehaviour
         _isGrounded = Physics.CheckSphere(_groundCheck.position, _groundDistance, _groundMask);
 
         float velocity = CC.Velocity.magnitude;
-        if (velocity > 0.5f)
+        if (velocity > 0.1f)
         {
             if (!_running)
             {
                 _running = true;
                 _animator.SetBool("Run", true);
             }
-
         }
         else if (_running)
         {
@@ -459,22 +458,20 @@ public class Goat : NetworkBehaviour
         }
         RespawnPoint respawnPoint;
 
-        //only look for the active one since thats gonna be only 1 which is the current level
-        Debug.LogWarning(GameManager.Instance.CurrentLevel);
-
         if (_respawnInSeconds == 0 && (!WaitForInput || JumpPressed) && (respawnPoint = level.GetPlayerSpawnPoint()) != null)
         {
             // Make sure we don't get in here again, even if we hit exactly zero
             _respawnInSeconds = -1;
             WaitForInput = false;
 
-            CC.Velocity = Vector3.zero;
-
             // Place the goat at its spawn point.
             Transform spawn = respawnPoint.transform;
-            transform.position = spawn.position;
-            transform.rotation = spawn.rotation;
+            CC.TeleportToPositionRotation(spawn.position, spawn.rotation);
+            //transform.SetPositionAndRotation(spawn.position, spawn.rotation);
+            CC.Velocity = Vector3.zero;
+            CC.gravity = -30;
 
+            ProgressBar.UpdateProgress(0);
             // If the player was already here when we joined, it might already be active, in which case we don't want to trigger any spawn FX, so just leave it ACTIVE
             if (State != PlayerState.Active)
                 State = PlayerState.Spawning;
@@ -488,6 +485,8 @@ public class Goat : NetworkBehaviour
         CanJump = true;
         CanMove = true;
 
+        ProgressBar.UpdateProgress(0);
+
         CC.gravity = -30;
 
         WaitForInput = false;
@@ -495,7 +494,7 @@ public class Goat : NetworkBehaviour
 
     public void SetDespawnedState()
     {
-        if (Object == null || !Object.IsValid || State == PlayerState.Dead)
+        if (Object == null || !Object.IsValid /*|| State == PlayerState.Dead*/)
             return;
 
         State = PlayerState.Despawned;
@@ -524,7 +523,6 @@ public class Goat : NetworkBehaviour
 
             while (Object.HasStateAuthority == false)
             {
-                Debug.LogError(Object.name + " " + Object.HasStateAuthority);
                 await Task.Delay(300); // wait for Auth transfer
             }
 
@@ -600,8 +598,6 @@ public class Goat : NetworkBehaviour
                 }
             }
 
-            PressedE = pressed.IsSet(NetworkInputData.Buttons.Interact);
-
             bool sprinting = ButtonsPrevious.IsSet(NetworkInputData.Buttons.Sprint);
 
             if (CanMove && _moveDirection != Vector3.zero && sprinting)
@@ -612,19 +608,21 @@ public class Goat : NetworkBehaviour
                     {
                         _stamina -= Runner.DeltaTime / _sprintTime;
                     }
-                    else if (_stamina >= _minStaminaBeforeSprint)
+                    //needs to be else if but also gotta fix smh else then
+                    if (_stamina >= _minStaminaBeforeSprint)
                     {
-                        //CC.Sprinting = true;
+                        CC.Sprinting = true;
                         _stamina -= Runner.DeltaTime / _sprintTime;
                     }
                     else
                     {
+                        CC.Sprinting = false;
                         _stamina += Runner.DeltaTime / _sprintRechargeTime;
                     }
                 }
                 else
                 {
-                    //CC.Sprinting = false;
+                    CC.Sprinting = false;
                     _stamina += Runner.DeltaTime / _sprintRechargeTime;
                 }
             }
@@ -918,8 +916,8 @@ public class Goat : NetworkBehaviour
     {
         if (CrazySDK.Instance && show != _bannerVisible)
         {
-            _banner.gameObject.SetActive(show);
-            _banner.MarkVisible(show);
+            _deathBanner.gameObject.SetActive(show);
+            _deathBanner.MarkVisible(show);
             if (update)
             {
                 CrazyAds.Instance.updateBannersDisplay();

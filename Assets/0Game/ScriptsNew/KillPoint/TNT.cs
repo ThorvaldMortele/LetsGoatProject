@@ -68,6 +68,8 @@ public class TNT : KillPoint
 
     protected override void ActiveUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Object.HasStateAuthority)
         {
             Collider[] colliders = new Collider[1];
@@ -90,7 +92,7 @@ public class TNT : KillPoint
         if (oldGoat == HeldBy)
         {
             //_hasExecuted = true;
-            //GameManagerNew.Instance.PlayBombBeep(false, FindObjectOfType<AudioManager>());
+            //GameManager.Instance.PlayBombBeep(false, newGoat);
             HeldBy.GoatBumpedGoat.RemoveListener(GoatBumpedGoat);
             if (Object.HasStateAuthority)
             {
@@ -102,6 +104,8 @@ public class TNT : KillPoint
 
     protected override void PrimedUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Timer.Expired(Runner))
         {
             StartKilling();
@@ -117,6 +121,8 @@ public class TNT : KillPoint
 
     protected override void StartKilling()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (HeldBy != null)
         {
             HeldBy.SendTNTKillFeed();

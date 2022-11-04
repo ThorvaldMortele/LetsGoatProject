@@ -15,6 +15,7 @@ using System.Globalization;
 using System.Threading;
 using static UnityEngine.CullingGroup;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal.Internal;
 
 //i always want the gamemanager to be spawned before the player
 [OrderBefore(typeof(Goat))]
@@ -51,7 +52,7 @@ public class GameManager : NetworkBehaviour
     [Header("InGame")]
     private GameObject LevelUIObj;
     [SerializeField] private Canvas _inGameUI;
-    [SerializeField] private TextMeshProUGUI _gameTimer;
+    [SerializeField] private TextMeshProUGUI _inGameTimer;
 
     [SerializeField] private GameObject _player1;
     [SerializeField] private TextMeshProUGUI _player1Name;
@@ -65,7 +66,7 @@ public class GameManager : NetworkBehaviour
     [Header("GameTime")]
     [SerializeField][Min(1)][Tooltip("How long a round lasts")] private int _levelTime = 30;
     [Networked(OnChanged = nameof(OnLevelTimerChanged))] private TickTimer _levelTickTimer { get; set; }
-    public UnityEvent<float> LevelTimeEvent = new UnityEvent<float>();
+    [HideInInspector] public UnityEvent<float> LevelTimeEvent = new UnityEvent<float>();
 
     [SerializeField] private Animator _TimerTextAnimation;
 
@@ -75,11 +76,15 @@ public class GameManager : NetworkBehaviour
     private TickTimer _midGameTickTimer { get; set; }
     private bool _midGameRunning = false;
 
+    [SerializeField] private TextMeshProUGUI _inBetweenGameTimer;
+
     public static UnityEvent LevelOverEvent = new UnityEvent();
 
+    [SerializeField] private Canvas _midGameCanvas;
+
     [Header("CrazyGames")]
-    private CrazyBanner _banner0;
-    //private CrazyBanner _banner1;
+    [SerializeField] private CrazyBanner _midGameBanner;
+    private CrazyBanner _startMenuBanner;
 
     private bool _bannerVisible = false;
 
@@ -108,7 +113,7 @@ public class GameManager : NetworkBehaviour
         //link all references
         InitializeGameManager();
 
-        _banner0.gameObject.SetActive(false);
+        _midGameBanner.gameObject.SetActive(false);
 
         StartCoroutine(DelaySetLevel(1));
     }
@@ -149,16 +154,33 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    #region Leaving
+
+    public void LeaveGame()
+    {
+        Runner.Shutdown(false);
+
+        EnableLoadingScreen();
+
+        LoadStartMenu();
+
+        _inGameUI.gameObject.SetActive(false);
+    }
+
+    #endregion
+
     #region Killing
 
     public void KillPlayer(Goat player)
     {
-        player.KillPlayer();
+        Debug.LogError("KillPlayer");
+         player.KillPlayer();
     }
 
     public void KillPlayerOutOfBounds(Goat player)
     {
-        player.KillPlayerOutOfBounds();
+        if (CurrentLevel != Levels.InBetween)
+            player.KillPlayerOutOfBounds();
     }
 
     #endregion
@@ -167,14 +189,14 @@ public class GameManager : NetworkBehaviour
 
     public void DisableLoadingScreen()
     {
-        ShowBanner(true);
+        ShowBanner(true, _startMenuBanner);
         _loadingScreen.gameObject.SetActive(false);
         _loadingGoat.gameObject.SetActive(false);
     }
 
     public void EnableLoadingScreen()
     {
-        ShowBanner(false);
+        ShowBanner(false, _startMenuBanner);
         _loadingScreen.gameObject.SetActive(true);
         _loadingGoat.gameObject.SetActive(true);
     }
@@ -183,8 +205,12 @@ public class GameManager : NetworkBehaviour
 
     #region CountdownVisuals
 
+    //i think i have to reset the timer from last game
+    //as in the color and reset the animation
     private IEnumerator CheckCountDown()
     {
+        _TimerTextAnimation.SetBool("Play", false);
+
         yield return new WaitForSeconds(_levelTime - 5);
 
         if (!_levelTickTimer.Equals(TickTimer.None))
@@ -202,7 +228,7 @@ public class GameManager : NetworkBehaviour
                 PlayBeepSound(true, Goat.Local);
 
             if (_TimerTextAnimation != null)
-                _TimerTextAnimation.SetTrigger("Play");
+                _TimerTextAnimation.SetBool("Play", true);
 
             yield return new WaitForSeconds(1f);
         }
@@ -217,7 +243,8 @@ public class GameManager : NetworkBehaviour
         CrazyEvents.Instance.GameplayStart();
         InputController.fetchInput = true;
 
-        if (!Object.HasStateAuthority)
+        //if (!Object.HasStateAuthority)
+        if (!Runner.IsSharedModeMasterClient)
             return;
 
         _levelTickTimer = TickTimer.CreateFromSeconds(Runner, _levelTime);
@@ -255,6 +282,7 @@ public class GameManager : NetworkBehaviour
         Cursor.lockState = CursorLockMode.None;
         CrazyEvents.Instance.GameplayStop();
         InputController.fetchInput = false;
+        CurrentLevel = Levels.InBetween;
 
         if (LeaderBoardUI == null)
         {
@@ -288,14 +316,18 @@ public class GameManager : NetworkBehaviour
     {
         if (Goat.Local != null) Goat.Local.HideDeathScreen(false);
 
-        //_midGameCanvas.enabled = true;
+        _midGameCanvas.enabled = true;
         _midGameRunning = true;
-        ShowBanner(true);
+        ShowBanner(true, _midGameBanner);
+
+        //teleport the goat away from killzones so it wouldnt kill him again when loading the same level
+        Goat.Local.CC.TeleportToPosition(new Vector3(0, 50, 0));
+        Goat.Local.CC.gravity = 0;
 
         while (!_midGameTickTimer.ExpiredOrNotRunning(Runner))
         {
             float timer = _midGameTickTimer.RemainingTime(Runner).Value;
-            _gameTimer.text = Mathf.CeilToInt(timer).ToString();
+            _inBetweenGameTimer.text = Mathf.CeilToInt(timer).ToString();
             yield return null;
         }
 
@@ -303,19 +335,13 @@ public class GameManager : NetworkBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         //LoadLevel(_levelManager.GetRandomLevelIndex());
-
-        if (Goat.Local != null)
+        if (Runner.IsSharedModeMasterClient)
         {
-            if (Goat.Local.Object.HasInputAuthority)
-                Goat.Local.RPCResetScore();
-
-            //reset player size since if u drink while the game ends you end up with a bigger character in the new session
-            Goat.Local.GetComponentInChildren<Animator>().transform.localScale = new Vector3(30, 33, 30);
-
-            StartCoroutine(Goat.Local.SetLeaderBoard(1));
+            StartCoroutine(DelaySetLevel(0));
         }
 
-        ShowBanner(false);
+        ShowBanner(false, _midGameBanner);
+        _midGameCanvas.enabled = false;
     }
 
     #endregion
@@ -468,6 +494,11 @@ public class GameManager : NetworkBehaviour
                 StartLevelTimer();
 
                 StartCoroutine(CheckCountDown());
+
+                LoadKillPoints();
+
+                SetupPlayer();
+
                 break;
             case Levels.Level2:
                 LoadLevel2();
@@ -475,6 +506,10 @@ public class GameManager : NetworkBehaviour
                 StartLevelTimer();
 
                 StartCoroutine(CheckCountDown());
+
+                LoadKillPoints();
+
+                SetupPlayer();
                 break;
             case Levels.None:
                 LoadStartMenu();
@@ -485,6 +520,24 @@ public class GameManager : NetworkBehaviour
             //VOID IS A STATE WHERE THE GAME IS IN NONE OF THE LEVELS AND HAS JUST CONNECTED TO THE SERVER
             case Levels.Void:
                 break;
+        }
+    }
+
+    private void SetupPlayer()
+    {
+        if (Goat.Local != null)
+        {
+            if (Goat.Local.Object.HasInputAuthority)
+                Goat.Local.RPCResetScore();
+
+            //reset player size since if u drink while the game ends you end up with a bigger character in the new session
+            Goat.Local.GetComponentInChildren<Animator>().transform.localScale = new Vector3(30, 33, 30);
+
+            Goat.Local.ProgressBar.UpdateProgress(0);
+
+            StartCoroutine(Goat.Local.SetLeaderBoard(0));
+
+            Goat.Local.Respawn();
         }
     }
 
@@ -507,17 +560,20 @@ public class GameManager : NetworkBehaviour
         StartMenu.SetActive(true);
         Level2.SetActive(false);
         Level1.SetActive(false);
+
+        //disable loadingscreen
+        DisableLoadingScreen();
     }
 
     #endregion
 
     #region Ads
-    public void ShowBanner(bool show, bool update = true)
+    public void ShowBanner(bool show, CrazyBanner banner, bool update = true)
     {
         if (CrazySDK.Instance)
         {
-            _banner0.gameObject.SetActive(show);
-            _banner0.MarkVisible(show);
+            banner.gameObject.SetActive(show);
+            banner.MarkVisible(show);
             if (update)
             {
                 CrazyAds.Instance.updateBannersDisplay();
@@ -550,6 +606,13 @@ public class GameManager : NetworkBehaviour
 
     #region Other
 
+    private void LoadKillPoints()
+    {
+        var currentLevel = FindObjectOfType<LevelBehaviour>();
+        if (currentLevel != null)
+            currentLevel.Activate(Runner);
+    }
+
     private IEnumerator DelaySetLevel(int delay)
     {
         yield return new WaitForSeconds(delay);
@@ -573,10 +636,10 @@ public class GameManager : NetworkBehaviour
         BeforeGameCanvas = StartMenu.GetComponent<Canvas>();
         GoalManager = FindObjectOfType<GoalManager>(true);
         _inGameUI = FindObjectOfType<InGameUI>(true).GetComponent<Canvas>();
-        _gameTimer = _networkConnection.GameTimerText;
-        _TimerTextAnimation = _gameTimer.GetComponent<Animator>();
+        _inGameTimer = _networkConnection.GameTimerText;
+        _TimerTextAnimation = _inGameTimer.GetComponent<Animator>();
         LevelUIObj = _networkConnection.LevelUI;
-        _banner0 = _networkConnection.Banner;
+        _startMenuBanner = _networkConnection.Banner;
     }
 
     #endregion

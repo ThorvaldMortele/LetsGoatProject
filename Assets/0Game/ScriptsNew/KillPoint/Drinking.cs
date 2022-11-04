@@ -188,6 +188,8 @@ public class Drinking : KillPoint
 
     protected override void StartKilling()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (_killTime > 0)
         {
             State = KillState.Killing;
@@ -208,6 +210,8 @@ public class Drinking : KillPoint
 
     protected override void KillPlayers()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Goat == null) return;
 
         Goat.DrinkingPlayerEvent.Invoke(Goat);
@@ -217,6 +221,8 @@ public class Drinking : KillPoint
 
     protected override void KillingUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Timer.Expired(Runner))
         {
             if (Goat != null)

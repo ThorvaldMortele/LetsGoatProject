@@ -160,7 +160,12 @@ public class AlienAbduction : KillPoint
                 toBeam *= deltaTime;
             }
 
-            cc.Move(toBeam);
+            //check the distance from the endpoint based on a flat 2d plane on the ground ignoring height
+            if (Vector2.Distance(new Vector2(_beamAttractTransform.position.x, _beamAttractTransform.position.z),
+                new Vector2(PlayerInBeam.transform.position.x, PlayerInBeam.transform.position.z)) > 1)
+            {
+                cc.Move(toBeam);
+            }
         }
     }
 
@@ -227,6 +232,8 @@ public class AlienAbduction : KillPoint
 
     protected override void StartKilling()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (_killTime > 0)
         {
             if (Object.HasStateAuthority)
@@ -252,6 +259,8 @@ public class AlienAbduction : KillPoint
 
     protected override void KillingUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (Timer.Expired(Runner))
         {
             if (PlayerInBeam != null)
@@ -274,9 +283,8 @@ public class AlienAbduction : KillPoint
                 {
                     _cc = PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>();
                 }
-                _cc.enabled = false;
-                PlayerInBeam.transform.position = EaseBeamPosition();
-                _cc.enabled = true;
+                _cc.TeleportToPosition(EaseBeamPosition());
+                //PlayerInBeam.transform.position = EaseBeamPosition();
             }
         }
     }
@@ -294,6 +302,8 @@ public class AlienAbduction : KillPoint
 
     protected override void KillPlayers()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (PlayerInBeam == null) return;
 
         GameManager.Instance.KillPlayer(PlayerInBeam);

@@ -113,6 +113,8 @@ public class FlyTrap : KillPoint
 
     protected override void PrimedUpdate()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         GoatKillArea();
         if (State == KillState.Active)
         {
@@ -172,6 +174,8 @@ public class FlyTrap : KillPoint
 
     protected override void StartKilling()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (_killTime > 0)
         {
             if (Object.HasStateAuthority)
@@ -189,6 +193,8 @@ public class FlyTrap : KillPoint
 
     protected override void KillPlayers()
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         foreach (Goat player in _players)
         {
             Goat.FlyTrapPlayerEvent.Invoke(player);

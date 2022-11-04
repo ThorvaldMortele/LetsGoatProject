@@ -8,12 +8,16 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 public class NetworkCharacterControllerPrototype : NetworkTransform {
   [Header("Character Controller Settings")]
-  public float gravity       = -20.0f;
-  public float jumpImpulse   = 8.0f;
-  public float acceleration  = 10.0f;
+  public float gravity       = -30.0f;
+  public float jumpImpulse   = 15f;
+  public float acceleration  = 200.0f;
   public float braking       = 10.0f;
-  public float maxSpeed      = 2.0f;
+  public float maxSpeed      = 15.0f;
   public float rotationSpeed = 15.0f;
+
+  private float _originalSpeed;
+  public bool Sprinting;
+  public float SprintingSpeedMultiplier = 2f;
 
   [Networked]
   [HideInInspector]
@@ -40,6 +44,8 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   protected override void Awake() {
     base.Awake();
     CacheController();
+
+        _originalSpeed = maxSpeed;
   }
 
   public override void Spawned() {
@@ -112,6 +118,15 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
 
     moveVelocity.x = horizontalVel.x;
     moveVelocity.z = horizontalVel.z;
+
+    if (Sprinting)
+    {
+        maxSpeed = _originalSpeed * SprintingSpeedMultiplier; 
+    }
+    else
+    {
+        maxSpeed = _originalSpeed;
+    }
 
     Controller.Move(moveVelocity * deltaTime);
 

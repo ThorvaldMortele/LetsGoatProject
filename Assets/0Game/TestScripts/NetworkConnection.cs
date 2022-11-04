@@ -135,7 +135,6 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
         {
             Goat player = networkObject.gameObject.GetComponent<Goat>();
 
-            //Debug.Log($"Initializing player {player.playerID}");
             player.InitNetworkState();
         }
     }
@@ -144,13 +143,14 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     {
         Goat player = GoatManager.Get(playerref);
 
-        //add despawn method to player to uncomment this
-        //if (player != null) //player.Despawn();
+        if (player != null) player.TriggerDespawn();
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        DisableLoadingScreen();
+        _loadingScreen.gameObject.SetActive(false);
+        _loadingGoat.gameObject.SetActive(false);
+
         Debug.Log("wah");
     }
 
@@ -223,10 +223,10 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
         if (runner.LocalPlayer != player) return;
 
         _startTimer = false;
-        //GameManager.Instance.BeforeGameCanvas.enabled = false;
-        if (FindObjectOfType<NetworkObject>().HasStateAuthority)
+
+        if (runner.IsSharedModeMasterClient)
         {
-            RPC_SetCurrentLevel(GameManager.Instance.CurrentLevel);
+            RPC_SetCurrentLevel(GameManager.Instance.Object);
         }
 
         GameManager.Instance.GoalManager.SetupGoals();
@@ -234,9 +234,10 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_SetCurrentLevel(GameManager.Levels CurrentLevel)
+    private void RPC_SetCurrentLevel(NetworkObject obj)
     {
-        CurrentLevel = GameManager.Instance.CurrentLevel;
+        GameManager.Instance.CurrentLevel = obj.GetComponent<GameManager>().CurrentLevel;
+        //CurrentLevel = GameManager.Instance.CurrentLevel;
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -266,6 +267,8 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
+        if (GoatManager.AllPlayers.Contains(Goat.Local)) GoatManager.RemovePlayer(Goat.Local);
+
         DisableLoadingScreen();
 
         Cursor.lockState = CursorLockMode.None;
@@ -275,6 +278,9 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
         ShowBanner(true);
         //GameManager.Instance.GoalManager.SaveGoalProgress();
+
+        var obj = FindObjectOfType<Camera>(true);
+        obj.gameObject.SetActive(true);
     }
 
     public void OnUserSimulationMessage(NetworkRunner runner, SimulationMessagePtr message)

@@ -9,6 +9,8 @@ public class Drowning : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (other.gameObject.layer.Equals(6))
         {
             other.GetComponent<Goat>().ProgressBar.transform.parent.gameObject.SetActive(true);
@@ -19,6 +21,8 @@ public class Drowning : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (other.gameObject.layer.Equals(6))
         {
             var player = other.GetComponent<Goat>();
@@ -49,6 +53,8 @@ public class Drowning : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        if (GameManager.Instance.CurrentLevel == GameManager.Levels.InBetween) return;
+
         if (other.gameObject.layer.Equals(6))
         {
             other.GetComponent<Goat>().DrowningTimer = TickTimer.None;

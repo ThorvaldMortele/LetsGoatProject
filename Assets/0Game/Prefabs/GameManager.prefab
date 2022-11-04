@@ -443,7 +443,6 @@ MonoBehaviour:
   UsernameField: {fileID: 0}
   _billboardPlayerText: {fileID: 0}
   HasSetUsername: 0
-  UsernameContainer: {fileID: 0}
   _midGameCanvas: {fileID: 3193515486168742807}
   _timer: {fileID: 8936462928665420815}
   _player1: {fileID: 2675755330109626873}

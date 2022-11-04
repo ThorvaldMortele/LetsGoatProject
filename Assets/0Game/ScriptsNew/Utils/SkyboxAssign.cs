@@ -6,7 +6,7 @@ public class SkyboxAssign : MonoBehaviour
 {
     [SerializeField] private Material _skyboxMat;
 
-    private void Start()
+    private void OnEnable()
     {
         RenderSettings.skybox = _skyboxMat;
     }

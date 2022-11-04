@@ -224,10 +224,10 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
         _startTimer = false;
 
-        if (runner.IsSharedModeMasterClient)
-        {
-            RPC_SetCurrentLevel(/*GameManager.Instance.Object*/GameManager.Instance.CurrentLevel) ;
-        }
+        //if (runner.IsSharedModeMasterClient)
+        //{
+            //RPC_SetCurrentLevel(/*GameManager.Instance.Object*/GameManager.Instance.CurrentLevel) ;
+        //}
 
         GameManager.Instance.GoalManager.SetupGoals();
         Cursor.lockState = CursorLockMode.Locked;

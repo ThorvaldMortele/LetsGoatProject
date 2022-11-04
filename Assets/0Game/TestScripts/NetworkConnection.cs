@@ -220,18 +220,15 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
+        if (runner.IsSharedModeMasterClient)
+        {
+            SpawnPlayer(runner, player);
+            GameManager.Instance.CurrentLevel = GameManager.Instance.CurrentLevel;
+        }
+            
         if (runner.LocalPlayer != player) return;
 
-        SpawnPlayer(runner, player);
-
         _startTimer = false;
-
-        //if (runner.IsSharedModeMasterClient)
-        //{
-        //RPC_SetCurrentLevel(/*GameManager.Instance.Object*/GameManager.Instance.CurrentLevel) ;
-        //}
-
-        GameManager.Instance.CurrentLevel = GameManager.Instance.CurrentLevel;
 
         GameManager.Instance.GoalManager.SetupGoals();
         Cursor.lockState = CursorLockMode.Locked;

@@ -226,7 +226,7 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
         if (runner.IsSharedModeMasterClient)
         {
-            RPC_SetCurrentLevel(GameManager.Instance.Object);
+            RPC_SetCurrentLevel(/*GameManager.Instance.Object*/GameManager.Instance.CurrentLevel) ;
         }
 
         GameManager.Instance.GoalManager.SetupGoals();
@@ -234,9 +234,9 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_SetCurrentLevel(NetworkObject obj)
+    private void RPC_SetCurrentLevel(GameManager.Levels level)
     {
-        GameManager.Instance.CurrentLevel = obj.GetComponent<GameManager>().CurrentLevel;
+        GameManager.Instance.CurrentLevel = /*obj.GetComponent<GameManager>().CurrentLevel*/ level;
         //CurrentLevel = GameManager.Instance.CurrentLevel;
     }
 

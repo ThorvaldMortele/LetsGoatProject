@@ -130,6 +130,7 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     
     private void SpawnPlayer(NetworkRunner runner, PlayerRef playerref)
     {
+        //if i spawn using this method, it auto spawns it on the other joining clients!!!
         var player = runner.Spawn(_playerPrefab, new Vector3(0, 10, 0), Quaternion.identity, playerref, InitNetworkState);
 
         void InitNetworkState(NetworkRunner runner, NetworkObject networkObject)
@@ -227,8 +228,10 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
         //if (runner.IsSharedModeMasterClient)
         //{
-            //RPC_SetCurrentLevel(/*GameManager.Instance.Object*/GameManager.Instance.CurrentLevel) ;
+        //RPC_SetCurrentLevel(/*GameManager.Instance.Object*/GameManager.Instance.CurrentLevel) ;
         //}
+
+        GameManager.Instance.CurrentLevel = GameManager.Instance.CurrentLevel;
 
         GameManager.Instance.GoalManager.SetupGoals();
         Cursor.lockState = CursorLockMode.Locked;

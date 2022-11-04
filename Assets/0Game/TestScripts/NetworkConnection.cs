@@ -222,11 +222,12 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (runner.IsSharedModeMasterClient)
         {
-            SpawnPlayer(runner, player);
             GameManager.Instance.CurrentLevel = GameManager.Instance.CurrentLevel;
         }
             
         if (runner.LocalPlayer != player) return;
+
+        SpawnPlayer(runner, player);
 
         _startTimer = false;
 

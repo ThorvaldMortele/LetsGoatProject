@@ -253,22 +253,30 @@ public class GameManager : NetworkBehaviour
 
     private IEnumerator LevelTimer()
     {
+        //if (_levelTickTimer.ExpiredOrNotRunning(Runner))
+        //{
+        //    LevelTimeEvent.Invoke(0);
+        //    LevelOver();
+        //    yield break;
+        //}
+
+        while (!_levelTickTimer.ExpiredOrNotRunning(Runner))
+        {
+            float timer = _levelTickTimer.RemainingTime(Runner).Value;
+            LevelTimeEvent.Invoke(timer);
+
+            //if (CurrentLevel != Levels.InBetween && CurrentLevel != Levels.None && CurrentLevel != Levels.Void)
+            //    LevelOver();
+
+            yield return null;
+        }
+
         if (_levelTickTimer.ExpiredOrNotRunning(Runner))
         {
             LevelTimeEvent.Invoke(0);
             LevelOver();
             yield break;
         }
-
-        while (!_levelTickTimer.ExpiredOrNotRunning(Runner))
-        {
-            float timer = _levelTickTimer.RemainingTime(Runner).Value;
-            LevelTimeEvent.Invoke(timer);
-            yield return null;
-        }
-
-        if (CurrentLevel != Levels.InBetween || CurrentLevel != Levels.None || CurrentLevel != Levels.Void)
-            LevelOver();
     }
 
     #endregion
@@ -277,6 +285,8 @@ public class GameManager : NetworkBehaviour
 
     public void LevelOver()
     {
+        if (CurrentLevel == Levels.InBetween) return;
+
         PlayBeepSound(false, Goat.Local);
 
         Cursor.lockState = CursorLockMode.None;
@@ -324,7 +334,6 @@ public class GameManager : NetworkBehaviour
         Goat.Local.CC.TeleportToPosition(new Vector3(0, 50, 0));
         Goat.Local.CC.gravity = 0;
 
-        
         while (!_midGameTickTimer.ExpiredOrNotRunning(Runner))
         {
             float timer = _midGameTickTimer.RemainingTime(Runner).Value;

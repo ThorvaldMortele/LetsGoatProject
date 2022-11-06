@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class ZoomCamera : MonoBehaviour
 {
-    private float _minZoom = 40;
-    private float _maxZoom = 100f;
-    private float _zoomSensitivity = 20f;
+    private float _minZoom = -5f;
+    private float _maxZoom = 3f;
+    private float _zoomSensitivity = 10f;
 
-    [SerializeField] private CinemachineFreeLook _camera;
+    [SerializeField] private CinemachineCameraOffset _camera;
 
     void Update()
     {
-        var fov = _camera.m_Lens.FieldOfView;
-        fov += Input.GetAxis("Mouse ScrollWheel") * (_zoomSensitivity * -1f);
-        fov = Mathf.Clamp(fov, _minZoom, _maxZoom);
-        _camera.m_Lens.FieldOfView = fov;
+        var value = _camera.m_Offset.z;
+        value += Input.GetAxis("Mouse ScrollWheel") * _zoomSensitivity;
+        value = Mathf.Clamp(value, _minZoom, _maxZoom);
+        _camera.m_Offset.z = value;
     }
 }

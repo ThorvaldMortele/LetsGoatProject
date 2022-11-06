@@ -38,13 +38,10 @@ public abstract class Goal : ScriptableObject
 
     public void Save(string key, string claimKey)
     {
-        if (_progress != _data.currentProgress)
-        {
-            _progress = _data.currentProgress;
-            PlayerPrefs.SetInt(key, _progress);
-            PlayerPrefs.SetInt(claimKey, Claimed ? 1 : 0);
-            _goalProgressEvent.Invoke(_data.currentProgress, _data.endGoal);
-        }
+        _progress = _data.currentProgress;
+        PlayerPrefs.SetInt(key, _progress);
+        PlayerPrefs.SetInt(claimKey, Claimed ? 1 : 0);
+        _goalProgressEvent.Invoke(_data.currentProgress, _data.endGoal);
     }
 
     public void Claim(string claimKey, GoatbuxManager goatbuxManager)

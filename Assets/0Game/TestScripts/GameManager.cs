@@ -158,6 +158,12 @@ public class GameManager : NetworkBehaviour
 
     public void LeaveGame()
     {
+        _midGameRunning = false;
+
+        StopCoroutine(MidGame());
+
+        _networkConnection.StartCamera.SetActive(true);
+
         Runner.Shutdown(false);
 
         EnableLoadingScreen();
@@ -326,6 +332,8 @@ public class GameManager : NetworkBehaviour
     {
         if (Goat.Local != null) Goat.Local.HideDeathScreen(false);
 
+        Runner.SessionInfo.IsOpen = false;
+
         _midGameCanvas.enabled = true;
         _midGameRunning = true;
         ShowBanner(true, _midGameBanner);
@@ -344,7 +352,6 @@ public class GameManager : NetworkBehaviour
         _midGameRunning = false;
         Cursor.lockState = CursorLockMode.Locked;
 
-        //LoadLevel(_levelManager.GetRandomLevelIndex());
         if (Runner.IsSharedModeMasterClient)
         {
             StartCoroutine(DelaySetLevel(0));
@@ -352,6 +359,8 @@ public class GameManager : NetworkBehaviour
 
         ShowBanner(false, _midGameBanner);
         _midGameCanvas.enabled = false;
+
+        Runner.SessionInfo.IsOpen = true;
     }
 
     #endregion

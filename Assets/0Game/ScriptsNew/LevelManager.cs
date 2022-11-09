@@ -15,13 +15,12 @@ public class LevelManager : NetworkSceneManagerBase
     private LevelBehaviour _currentLevel;
 
     private Scene _loadedScene;
-    private GameObject _startCamera;
 
     //public FusionLauncher launcher { get; set; }
 
     private void Awake()
     {
-        _startCamera = Camera.main.gameObject;
+        
     }
 
     protected override void Shutdown(NetworkRunner runner)
@@ -34,7 +33,6 @@ public class LevelManager : NetworkSceneManagerBase
         }
 
         _loadedScene = default;
-        _startCamera.SetActive(true);
 
         if (CrazySDK.Instance != null)
         {
@@ -44,7 +42,7 @@ public class LevelManager : NetworkSceneManagerBase
 
     public void DisableStartCamera()
     {
-        _startCamera.SetActive(false);
+        FindObjectOfType<NetworkConnection>().StartCamera.SetActive(false);
     }
 
     public int GetRandomLevelIndex()

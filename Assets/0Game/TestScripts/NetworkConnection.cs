@@ -43,10 +43,14 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     public GameObject LevelUI;
     public CrazyBanner Banner;
 
+    public GameObject StartCamera;
+
     private void Awake()
     {
         Application.targetFrameRate = 60;
         DontDestroyOnLoad(this);
+
+        StartCamera = Camera.main.gameObject;
     }
 
     void Update()

@@ -604,19 +604,17 @@ public class Goat : NetworkBehaviour
             {
                 if (_stamina > 0)
                 {
-                    if (sprinting)
+                    if (CC.Sprinting)
                     {
                         _stamina -= Runner.DeltaTime / _sprintTime;
                     }
-                    //needs to be else if but also gotta fix smh else then
-                    if (_stamina >= _minStaminaBeforeSprint)
+                    else if (_stamina >= _minStaminaBeforeSprint)
                     {
                         CC.Sprinting = true;
                         _stamina -= Runner.DeltaTime / _sprintTime;
                     }
                     else
                     {
-                        CC.Sprinting = false;
                         _stamina += Runner.DeltaTime / _sprintRechargeTime;
                     }
                 }
@@ -628,7 +626,7 @@ public class Goat : NetworkBehaviour
             }
             else
             {
-                //CC.Sprinting = false;
+                CC.Sprinting = false;
                 _stamina += Runner.DeltaTime / _sprintRechargeTime;
             }
             _stamina = Mathf.Clamp(_stamina, 0, 1);

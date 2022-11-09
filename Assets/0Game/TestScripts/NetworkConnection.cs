@@ -119,11 +119,11 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
         await _currentRunner.StartGame(new StartGameArgs()
         {
             GameMode = _gameMode,
-#if UNITY_EDITOR
-            SessionName = "LeaveMeAlone",
-#else
+//#if UNITY_EDITOR
+//            SessionName = "LeaveMeAlone",
+//#else
             SessionName = "",
-#endif
+//#endif
             SceneManager = gameObject.AddComponent<NetworkSceneManagerDefault>()
         });
 

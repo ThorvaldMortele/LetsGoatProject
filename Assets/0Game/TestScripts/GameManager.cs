@@ -249,7 +249,6 @@ public class GameManager : NetworkBehaviour
         CrazyEvents.Instance.GameplayStart();
         InputController.fetchInput = true;
 
-        //if (!Object.HasStateAuthority)
         if (!Runner.IsSharedModeMasterClient)
             return;
 
@@ -259,20 +258,21 @@ public class GameManager : NetworkBehaviour
 
     private IEnumerator LevelTimer()
     {
-        //if (_levelTickTimer.ExpiredOrNotRunning(Runner))
-        //{
-        //    LevelTimeEvent.Invoke(0);
-        //    LevelOver();
-        //    yield break;
-        //}
-
         while (!_levelTickTimer.ExpiredOrNotRunning(Runner))
         {
             float timer = _levelTickTimer.RemainingTime(Runner).Value;
             LevelTimeEvent.Invoke(timer);
 
-            //if (CurrentLevel != Levels.InBetween && CurrentLevel != Levels.None && CurrentLevel != Levels.Void)
-            //    LevelOver();
+            if (timer > 3 && timer < _levelTime - 3)
+            {
+                if (!Runner.SessionInfo.IsOpen)
+                    Runner.SessionInfo.IsOpen = true;
+            }
+            else
+            {
+                if (Runner.SessionInfo.IsOpen)
+                    Runner.SessionInfo.IsOpen = false;
+            }
 
             yield return null;
         }
@@ -332,7 +332,7 @@ public class GameManager : NetworkBehaviour
     {
         if (Goat.Local != null) Goat.Local.HideDeathScreen(false);
 
-        Runner.SessionInfo.IsOpen = false;
+        //Runner.SessionInfo.IsOpen = false;
 
         _midGameCanvas.enabled = true;
         _midGameRunning = true;

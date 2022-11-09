@@ -16,13 +16,6 @@ public class LevelManager : NetworkSceneManagerBase
 
     private Scene _loadedScene;
 
-    //public FusionLauncher launcher { get; set; }
-
-    private void Awake()
-    {
-        
-    }
-
     protected override void Shutdown(NetworkRunner runner)
     {
         base.Shutdown(runner);

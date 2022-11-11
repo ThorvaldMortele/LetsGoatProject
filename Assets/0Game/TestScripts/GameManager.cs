@@ -527,6 +527,9 @@ public class GameManager : NetworkBehaviour
 
                 SetupPlayer();
 
+                FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
+                FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
+
                 break;
             case Levels.Level2:
                 Debug.LogError("Level2 Loaded");
@@ -539,6 +542,10 @@ public class GameManager : NetworkBehaviour
                 LoadKillPoints();
 
                 SetupPlayer();
+
+                FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
+                FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
+
                 break;
             case Levels.None:
                 Debug.LogError("Level none Loaded");

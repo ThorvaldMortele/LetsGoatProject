@@ -160,8 +160,8 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectedToServer(NetworkRunner runner)
     {
-        _loadingScreen.gameObject.SetActive(false);
-        _loadingGoat.gameObject.SetActive(false);
+        //_loadingScreen.gameObject.SetActive(false);
+        //_loadingGoat.gameObject.SetActive(false);
 
         Debug.Log("wah");
     }

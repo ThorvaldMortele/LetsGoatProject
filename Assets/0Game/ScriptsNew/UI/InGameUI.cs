@@ -109,13 +109,6 @@ public class InGameUI : MonoBehaviour
         }
     }
 
-    //private IEnumerator Delay()
-    //{
-        //yield return new WaitForSeconds(2f);
-
-        //GameManager.Instance.DisableLoadingScreen();
-    //}
-
     public void UpdateCameraZoom()
     {
         if (FindObjectOfType<CinemachineCameraOffset>() != null)

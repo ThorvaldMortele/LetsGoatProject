@@ -315,8 +315,11 @@ MonoBehaviour:
   braking: 10
   maxSpeed: 15
   rotationSpeed: 15
+  Sprinting: 0
+  SprintingSpeedMultiplier: 1.5
   _IsGrounded: 1
   _Velocity: {x: 0, y: 0, z: 0}
+  _MaxVelocityY: 0
 --- !u!114 &490218238661698224
 MonoBehaviour:
   m_ObjectHideFlags: 0

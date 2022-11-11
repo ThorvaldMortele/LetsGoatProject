@@ -27,11 +27,15 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   [HideInInspector]
   public Vector3 Velocity { get; set; }
 
-  /// <summary>
-  /// Sets the default teleport interpolation velocity to be the CC's current velocity.
-  /// For more details on how this field is used, see <see cref="NetworkTransform.TeleportToPosition"/>.
-  /// </summary>
-  protected override Vector3 DefaultTeleportInterpolationVelocity => Velocity;
+  [Networked]
+  [HideInInspector]
+  public float MaxVelocityY { get; set; }
+
+    /// <summary>
+    /// Sets the default teleport interpolation velocity to be the CC's current velocity.
+    /// For more details on how this field is used, see <see cref="NetworkTransform.TeleportToPosition"/>.
+    /// </summary>
+    protected override Vector3 DefaultTeleportInterpolationVelocity => Velocity;
 
   /// <summary>
   /// Sets the default teleport interpolation angular velocity to be the CC's rotation speed on the Z axis.
@@ -51,6 +55,8 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   public override void Spawned() {
     base.Spawned();
     CacheController();
+
+    MaxVelocityY = 0;
 
     // Caveat: this is needed to initialize the Controller's state and avoid unwanted spikes in its perceived velocity
     Controller.Move(transform.position);
@@ -83,7 +89,7 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
   public virtual void Jump(bool ignoreGrounded = false, float? overrideImpulse = null) {
     if (IsGrounded || ignoreGrounded) {
       var newVel = Velocity;
-      newVel.y += overrideImpulse ?? jumpImpulse;
+      newVel.y += MaxVelocityY = overrideImpulse ?? jumpImpulse; ;
       Velocity =  newVel;
     }
   }
@@ -119,6 +125,11 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
     moveVelocity.x = horizontalVel.x;
     moveVelocity.z = horizontalVel.z;
 
+    if (Velocity.y > MaxVelocityY)
+    {
+        moveVelocity.y -= Controller.velocity.y - MaxVelocityY;
+    }
+
     if (Sprinting)
     {
         maxSpeed = _originalSpeed * SprintingSpeedMultiplier; 
@@ -130,7 +141,17 @@ public class NetworkCharacterControllerPrototype : NetworkTransform {
 
     Controller.Move(moveVelocity * deltaTime);
 
-    Velocity   = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
+    Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
+
+    if (gravity < 0 && MaxVelocityY > 0)
+    {
+        MaxVelocityY += gravity * Runner.DeltaTime;
+        if (MaxVelocityY < 0)
+        {
+            MaxVelocityY = 0;
+        }
+    }
+
     IsGrounded = Controller.isGrounded;
   }
 }

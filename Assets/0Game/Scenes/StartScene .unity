@@ -1284,6 +1284,7 @@ GameObject:
   - component: {fileID: 588696540}
   - component: {fileID: 588696539}
   - component: {fileID: 588696542}
+  - component: {fileID: 588696543}
   m_Layer: 13
   m_Name: PlayShared
   m_TagString: Untagged
@@ -1380,6 +1381,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 588696543}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &588696540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1437,6 +1450,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &588696543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588696537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &617113716
 GameObject:
   m_ObjectHideFlags: 0
@@ -5865,6 +5890,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 4658582187842921289}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &890607153908097825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7096,6 +7133,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1227681613591891048}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!224 &1227681613591891041
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7166,6 +7215,7 @@ GameObject:
   - component: {fileID: 1227681613591891043}
   - component: {fileID: 1227681613591891040}
   - component: {fileID: 1227681613591891047}
+  - component: {fileID: 1227681613591891048}
   m_Layer: 13
   m_Name: SettingsButton
   m_TagString: Untagged
@@ -7192,6 +7242,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1227681613591891048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227681613591891046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1227681613627108796
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13182,6 +13244,7 @@ GameObject:
   - component: {fileID: 3735482699187482906}
   - component: {fileID: 847208679345202554}
   - component: {fileID: 4658582187842921288}
+  - component: {fileID: 4658582187842921289}
   m_Layer: 13
   m_Name: VolumeBtn (1)
   m_TagString: Untagged
@@ -13208,6 +13271,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4658582187842921289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4658582187842921287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4665271143701194165
 GameObject:
   m_ObjectHideFlags: 0
@@ -13691,6 +13766,8 @@ GameObject:
   - component: {fileID: 4384560744949969884}
   - component: {fileID: 2424845027490384906}
   - component: {fileID: 5540066674646754232}
+  - component: {fileID: 4976642819830388466}
+  - component: {fileID: 4976642819830388467}
   m_Layer: 13
   m_Name: Discord
   m_TagString: Untagged
@@ -13698,6 +13775,37 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &4976642819830388466
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976642819830388465}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb40b77cea3e2434096c20fb0835c9c5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4976642819830388467
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4976642819830388465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4999395390459532176
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13926,6 +14034,7 @@ GameObject:
   - component: {fileID: 4593532813818272879}
   - component: {fileID: 7526373073347231967}
   - component: {fileID: 5156679394651106354}
+  - component: {fileID: 5156679394651106355}
   m_Layer: 13
   m_Name: GoalsBtn
   m_TagString: Untagged
@@ -13952,6 +14061,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5156679394651106355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5156679394651106353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &5159383184284810195
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14406,7 +14527,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 3
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -14434,6 +14555,18 @@ MonoBehaviour:
       - m_Target: {fileID: 2381956570942174447}
         m_TargetAssemblyTypeName: StartScreenUI, Assembly-CSharp
         m_MethodName: ClickLink
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 4976642819830388467}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14820,6 +14953,7 @@ GameObject:
   - component: {fileID: 8357081666105175410}
   - component: {fileID: 9106513028758824046}
   - component: {fileID: 5953397384412099954}
+  - component: {fileID: 5953397384412099955}
   m_Layer: 13
   m_Name: Customize
   m_TagString: Untagged
@@ -14846,6 +14980,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5953397384412099955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5953397384412099953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5969208094973623815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15477,6 +15623,7 @@ GameObject:
   - component: {fileID: 4884607534058237780}
   - component: {fileID: 7774191385558215522}
   - component: {fileID: 6493080793896842526}
+  - component: {fileID: 6493080793896842527}
   m_Layer: 13
   m_Name: infobutton (1)
   m_TagString: Untagged
@@ -15503,6 +15650,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6493080793896842527
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6493080793896842525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d4006a8bff81840b3b7763df5aba7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &6495790363040402848
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17290,6 +17449,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5156679394651106355}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &7570667801808779589
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17704,6 +17875,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 1227681612891405151}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 6493080793896842527}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -31039,6 +31222,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5953397384412099955}
+        m_TargetAssemblyTypeName: ResetButton, Assembly-CSharp
+        m_MethodName: ResetSize
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

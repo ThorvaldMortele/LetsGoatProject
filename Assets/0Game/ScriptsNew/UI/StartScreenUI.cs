@@ -183,6 +183,18 @@ public class StartScreenUI : MonoBehaviour
         }
     }
 
+    public void DisableSettingsUI()
+    {
+        _globalAudioManager.Play("Click");
+
+        _settingsMenuObj.SetActive(false);
+
+        foreach (GameObject g in _defaultScreens)
+        {
+            g.SetActive(true);
+        }
+    }
+
     public void ExceededNameLimit()
     {
         if (_usernameField.text.Length < 3 || _usernameField.text.Length > 12)

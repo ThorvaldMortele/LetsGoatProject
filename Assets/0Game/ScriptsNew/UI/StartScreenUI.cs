@@ -158,7 +158,8 @@ public class StartScreenUI : MonoBehaviour
 
     public void DisplayUsernameToggleWarning()
     {
-        StartCoroutine(DisplayWarning(_usernameToggleWarningObj));
+        if (this.gameObject.activeInHierarchy)
+            StartCoroutine(DisplayWarning(_usernameToggleWarningObj));
     }
 
     public void EnableGoalsUI()

@@ -527,8 +527,11 @@ public class GameManager : NetworkBehaviour
 
                 SetupPlayer();
 
-                FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
-                FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
+                if (FindObjectOfType<LoadingScreen>()) 
+                    FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
+
+                if (FindObjectOfType<LoadingGoat>()) 
+                    FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
 
                 break;
             case Levels.Level2:
@@ -543,8 +546,11 @@ public class GameManager : NetworkBehaviour
 
                 SetupPlayer();
 
-                FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
-                FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
+                if (FindObjectOfType<LoadingScreen>())
+                    FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
+
+                if (FindObjectOfType<LoadingGoat>())
+                    FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
 
                 break;
             case Levels.None:

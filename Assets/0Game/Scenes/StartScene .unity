@@ -806,7 +806,6 @@ MonoBehaviour:
   _memberidObj: {fileID: 398203499}
   _loadingScreen: {fileID: 6690668948392442956}
   _loadingGoat: {fileID: 4697991563241220211}
-  _banner0: {fileID: 1329917257}
   StartMenu: {fileID: 802184453}
   Level1: {fileID: 925479473693403834}
   Level2: {fileID: 384467215527852879}
@@ -3033,6 +3032,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1220783671503576, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1220783671503576, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
       objectReference: {fileID: 0}
@@ -3042,7 +3045,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1949796600488922, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1949796600488922, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -3058,7 +3061,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 223749378014228462, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
       propertyPath: m_SortingOrder
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224151153673722542, guid: 6633892dd9ec0dc49bcdeac357ebc225, type: 3}
       propertyPath: m_Pivot.x

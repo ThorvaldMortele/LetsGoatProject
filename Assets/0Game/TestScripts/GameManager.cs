@@ -150,7 +150,8 @@ public class GameManager : NetworkBehaviour
                 c.gameObject.SetActive(false);
             }
 
-            Cursor.lockState = CursorLockMode.Locked;
+            if (CurrentLevel != Levels.InBetween)
+                Cursor.lockState = CursorLockMode.Locked;
 
             foreach (Canvas c in objs)
             {
@@ -730,6 +731,8 @@ public class GameManager : NetworkBehaviour
     private void InitializeGameManager()
     {
         _networkConnection = FindObjectOfType<NetworkConnection>();
+
+        if (!Runner.IsConnectedToServer) return;
 
         StartMenu = _networkConnection.StartMenu;
         Level1 = _networkConnection.Level1;

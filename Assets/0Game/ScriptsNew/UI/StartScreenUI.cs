@@ -1,3 +1,4 @@
+using Fusion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -193,6 +194,12 @@ public class StartScreenUI : MonoBehaviour
         foreach (GameObject g in _defaultScreens)
         {
             g.SetActive(true);
+        }
+
+        //if u are in game, lock the mouse upon closing the settings menu
+        if (FindObjectOfType<NetworkRunner>() != null)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 

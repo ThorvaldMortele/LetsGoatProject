@@ -34,7 +34,6 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
     [SerializeField] private LoadingScreen _loadingScreen;
     [SerializeField] private LoadingGoat _loadingGoat;
-    [SerializeField] private CrazyBanner _banner0;
     public GameObject StartMenu;
     public GameObject Level1;
     public GameObject Level2;
@@ -52,6 +51,8 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
         DontDestroyOnLoad(this);
 
         StartCamera = Camera.main.gameObject;
+
+        ShowBanner(true);
     }
 
     void Update()
@@ -316,8 +317,8 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
     {
         if (CrazySDK.Instance && CrazyAds.Instance)
         {
-            _banner0.gameObject.SetActive(show);
-            _banner0.MarkVisible(show);
+            Banner.gameObject.SetActive(show);
+            Banner.MarkVisible(show);
             if (update)
             {
                 CrazyAds.Instance.updateBannersDisplay();

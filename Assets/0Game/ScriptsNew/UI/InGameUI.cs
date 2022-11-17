@@ -175,5 +175,7 @@ public class InGameUI : MonoBehaviour
         _playerAudioManager.Play("Click");
         _pauseObj.SetActive(true);
         _settingsObj.SetActive(false);
+
+
     }
 }

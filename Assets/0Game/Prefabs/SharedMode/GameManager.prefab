@@ -326,7 +326,7 @@ MonoBehaviour:
   _player3: {fileID: 7601531710907199120}
   _player3Name: {fileID: 8375870904833543478}
   DeathText: {fileID: 0}
-  _levelTime: 30
+  _levelTime: 60
   LevelTimeEvent:
     m_PersistentCalls:
       m_Calls: []

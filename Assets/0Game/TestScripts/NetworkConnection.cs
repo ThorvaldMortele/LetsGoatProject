@@ -4,6 +4,7 @@ using Fusion.Sockets;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -230,11 +231,15 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (runner.IsSharedModeMasterClient)
+        if (runner.IsSharedModeMasterClient && runner.ActivePlayers.Count() > 1)
         {
-            GameManager.Instance.CurrentLevel = GameManager.Instance.CurrentLevel;
+            Debug.LogError("went through");
+
+            //GameManager.Instance.CurrentLevel = GameManager.Instance.CurrentLocalLevel;
+
+            GameManager.Instance.RPCSetLevel(player ,GameManager.Instance.CurrentLevel);
         }
-            
+
         if (runner.LocalPlayer != player) return;
 
         SpawnPlayer(runner, player);
@@ -243,13 +248,6 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
 
         GameManager.Instance.GoalManager.SetupGoals();
         Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    [Rpc(RpcSources.StateAuthority, RpcTargets.All)]
-    private void RPC_SetCurrentLevel(GameManager.Levels level)
-    {
-        GameManager.Instance.CurrentLevel = /*obj.GetComponent<GameManager>().CurrentLevel*/ level;
-        //CurrentLevel = GameManager.Instance.CurrentLevel;
     }
 
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)
@@ -289,7 +287,7 @@ public class NetworkConnection : MonoBehaviour, INetworkRunnerCallbacks
         if (CrazySDK.Instance && CrazyEvents.Instance) CrazyEvents.Instance.GameplayStop();
 
         ShowBanner(true);
-        //GameManager.Instance.GoalManager.SaveGoalProgress();
+        GameManager.Instance.GoalManager.SaveGoalProgress();
 
         var obj = FindObjectOfType<Camera>(true);
         obj.gameObject.SetActive(true);

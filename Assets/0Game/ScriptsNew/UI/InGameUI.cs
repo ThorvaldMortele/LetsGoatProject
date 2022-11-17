@@ -54,8 +54,6 @@ public class InGameUI : MonoBehaviour
 
         LoadOtherSettings();
 
-        //StartCoroutine(Delay());
-
         if (InputManager.Instance.ControlsObjs[0] == null)
         {
             InputManager.Instance.ControlsObjs = _controlsObjsInGame;
@@ -64,50 +62,21 @@ public class InGameUI : MonoBehaviour
         _settingsObj.SetActive(true);
         InputManager.Instance.SetupControls();
         _settingsObj.SetActive(false);
-
-        //StartCoroutine(DelaySetLeaveButton());
-    }
-
-    private IEnumerator DelaySetLeaveButton()
-    {
-        yield return new WaitForSeconds(1);
-
-        //GameManager.Instance.SetLeaveButton();
     }
 
     private void Update()
     {
         //kicks the player for being afk or when it didnt successfully remove him from the game
-        if (Goat.Local != null)
-            Goat.Local.TimeSinceInput += Time.deltaTime;
+        //if (Goat.Local != null)
+        //    Goat.Local.TimeSinceInput += Time.deltaTime;
 
-#if !UNITY_EDITOR
-        //if (Goat.Local._timeSinceInput >= 60f)
-        //{
-        //    Goat.Local._timeSinceInput = 0;
-        //    GameManagerNew.Instance.Restart(ShutdownReason.Ok);
-        //}
-#endif
-
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             PauseGame();
         }
-        //when the player presses tab it opens the pause menu
+        //when the player presses esc it opens the pause menu
     }
 
-    private IEnumerator CheckForPing()
-    {
-        while (true)
-        {
-            PlayerRef player = FindObjectOfType<NetworkRunner>().LocalPlayer;
-            var ping = (int)FindObjectOfType<NetworkRunner>().GetPlayerRtt(player);
-
-            _pingText.text = ping.ToString();
-
-            yield return new WaitForSeconds(1f);
-        }
-    }
 
     public void UpdateCameraZoom()
     {
@@ -191,7 +160,7 @@ public class InGameUI : MonoBehaviour
     public void LeaveGame()
     {
         _playerAudioManager.Play("Click");
-        //GameManager.Instance.Restart(ShutdownReason.Ok);
+        GameManager.Instance.LeaveGame();
     }
 
     public void SettingsMenu()

@@ -162,7 +162,7 @@ public class AlienAbduction : KillPoint
 
             //check the distance from the endpoint based on a flat 2d plane on the ground ignoring height
             if (Vector2.Distance(new Vector2(_beamAttractTransform.position.x, _beamAttractTransform.position.z),
-                new Vector2(PlayerInBeam.transform.position.x, PlayerInBeam.transform.position.z)) > 1)
+                new Vector2(PlayerInBeam.transform.position.x, PlayerInBeam.transform.position.z)) > 0.5f)
             {
                 cc.Move(toBeam);
             }
@@ -247,6 +247,7 @@ public class AlienAbduction : KillPoint
                 PlayerInBeam.CanMove = false;
                 PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>().gravity = 0;
                 _cc = PlayerInBeam.GetComponent<NetworkCharacterControllerPrototype>();
+
                 _goatStartPosition = PlayerInBeam.transform.position;
             }
         }
@@ -256,6 +257,12 @@ public class AlienAbduction : KillPoint
             StartInActive();
         }
     }
+
+    //private void Update()
+    //{
+    //    if (PlayerInBeam != null)
+    //        Debug.LogError(PlayerInBeam.Username.Value);
+    //}
 
     protected override void KillingUpdate()
     {

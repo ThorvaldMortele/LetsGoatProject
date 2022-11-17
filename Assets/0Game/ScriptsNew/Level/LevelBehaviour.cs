@@ -21,6 +21,8 @@ public class LevelBehaviour : MonoBehaviour
 
     private List<NetworkObject> _killPoints = new List<NetworkObject>();
 
+    public bool Activated = false;
+
     public void Activate(NetworkRunner runner)
     {
         SpawnKillPoints(runner);
@@ -44,6 +46,8 @@ public class LevelBehaviour : MonoBehaviour
     private void SpawnKillPoints(NetworkRunner runner)
     {
         if (!(runner.IsServer || runner.IsSharedModeMasterClient)) return;
+
+        Activated = true;
 
         foreach (KillPointSpawn killPointSpawn in _killPointSpawns)
         {

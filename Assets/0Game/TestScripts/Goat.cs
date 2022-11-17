@@ -70,6 +70,8 @@ public class Goat : NetworkBehaviour
     private float _bumpDelay = 0.2f;
     private bool _canBump = true;
 
+    private Vector3 _bumpImpact = Vector3.zero;
+
     public RadialProgressBar ProgressBar;
 
     [Header("Other")]
@@ -215,6 +217,11 @@ public class Goat : NetworkBehaviour
 
         LastConnected = Object.Runner.Simulation.Tick;
         _ticksInBetweenConnectedChecks = Object.Runner.Simulation.Config.TickRate;
+
+        if (Object.HasInputAuthority)
+        {
+            CallLevelLoadedProperlyCheck();
+        }
     }
     private void Start()
     {
@@ -308,7 +315,16 @@ public class Goat : NetworkBehaviour
             }
         }
 
-        //UpdateLastConnected();
+        // apply the impact force:
+        if (_bumpImpact.magnitude > 0.2) CC.Move(_bumpImpact * Time.deltaTime);
+        // consumes the impact energy each cycle:
+        _bumpImpact = Vector3.Lerp(_bumpImpact, Vector3.zero, 5 * Time.deltaTime);
+
+        //it disables the CC of the second player if the host dies in the alien thing
+        //so i reenable it here, i have no clue as to why it disables it i think it 
+        //could be an auto disable thing when it has to do some wacky stuff but idk why it would
+        if (!GetComponent<NetworkCharacterControllerPrototype>().Controller.enabled)
+            GetComponent<NetworkCharacterControllerPrototype>().Controller.enabled = true;
     }
 
     #region KillFeed
@@ -440,12 +456,6 @@ public class Goat : NetworkBehaviour
         Respawn(true);
     }
 
-    //private IEnumerator RespawningServer()
-    //{
-    //    yield return new WaitForSecondsRealtime(3);
-    //    Respawn(true);
-    //}
-
     private void CheckRespawn(LevelBehaviour level)
     {
         if (_respawnInSeconds > 0)
@@ -467,7 +477,7 @@ public class Goat : NetworkBehaviour
             // Place the goat at its spawn point.
             Transform spawn = respawnPoint.transform;
             CC.TeleportToPositionRotation(spawn.position, spawn.rotation);
-            //transform.SetPositionAndRotation(spawn.position, spawn.rotation);
+
             CC.Velocity = Vector3.zero;
             CC.gravity = -30;
 
@@ -682,6 +692,14 @@ public class Goat : NetworkBehaviour
         }
     }
 
+    public void AddImpact(Vector3 direction, float force)
+    {
+        direction.Normalize();
+        if (direction.y < 0) direction.y = -direction.y; // reflect down force on the ground
+        _bumpImpact += direction.normalized * force;
+    }
+
+
     [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
     public void Rpc_BumpGoat(Goat goat, Vector3 direction)
     {
@@ -689,6 +707,8 @@ public class Goat : NetworkBehaviour
 
         //find smth that acts as a push in a character controller since i cant use push
         //goat.CC.Controller.attachedRigidbody.AddForce(direction * _bumpSpeed, ForceMode.Impulse);
+
+        AddImpact(direction, _bumpSpeed);
 
         PlayBumpParticle();
         goat.GoatBumpedGoat.Invoke(this, goat);
@@ -901,6 +921,11 @@ public class Goat : NetworkBehaviour
     #endregion
 
     #region Other
+
+    public void CallLevelLoadedProperlyCheck()
+    {
+        StartCoroutine(GameManager.Instance.CheckIfLevelLoadedProperly());
+    }
 
     public void HideDeathScreen(bool update = true)
     {

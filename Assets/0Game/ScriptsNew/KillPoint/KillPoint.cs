@@ -82,6 +82,7 @@ public class KillPoint : NetworkBehaviour, IStateAuthorityChanged
         _running = false;
         if (Object.HasStateAuthority)
         {
+            
             Runner.Despawn(Object);
         }
     }

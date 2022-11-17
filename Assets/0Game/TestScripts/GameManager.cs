@@ -16,6 +16,7 @@ using System.Threading;
 using static UnityEngine.CullingGroup;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering.Universal.Internal;
+using System.Runtime.CompilerServices;
 
 //i always want the gamemanager to be spawned before the player
 [OrderBefore(typeof(Goat))]
@@ -32,6 +33,10 @@ public class GameManager : NetworkBehaviour
 
     [Networked(OnChanged = nameof(OnLevelChanged))]
     public Levels CurrentLevel { get; set; }
+
+    public Levels CurrentLocalLevel { get; set; }
+
+    private Levels _previousLevel;
 
     [Header("Leaderboard")]
     [HideInInspector] public BoardUI LeaderBoardUI;
@@ -154,6 +159,13 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    [Rpc(RpcSources.All, RpcTargets.All)]
+    public void RPCSetLevel([RpcTarget] PlayerRef player, Levels level)
+    {
+        CurrentLevel = level;
+        Debug.LogError(level + " RPC" + " | " + player.PlayerId);
+    }
+
     #region Leaving
 
     public void LeaveGame()
@@ -179,8 +191,9 @@ public class GameManager : NetworkBehaviour
 
     public void KillPlayer(Goat player)
     {
-        Debug.LogError("KillPlayer");
-         player.KillPlayer();
+        Debug.LogError("KillPlayer " + player.Username);
+        Debug.LogError(player.State);
+        player.KillPlayer();
     }
 
     public void KillPlayerOutOfBounds(Goat player)
@@ -293,12 +306,15 @@ public class GameManager : NetworkBehaviour
     {
         if (CurrentLevel == Levels.InBetween) return;
 
+        FindObjectOfType<LevelBehaviour>().Activated = false;
+
         PlayBeepSound(false, Goat.Local);
 
         Cursor.lockState = CursorLockMode.None;
         CrazyEvents.Instance.GameplayStop();
         InputController.fetchInput = false;
         CurrentLevel = Levels.InBetween;
+        CurrentLocalLevel = CurrentLevel;
 
         if (LeaderBoardUI == null)
         {
@@ -332,8 +348,6 @@ public class GameManager : NetworkBehaviour
     {
         if (Goat.Local != null) Goat.Local.HideDeathScreen(false);
 
-        //Runner.SessionInfo.IsOpen = false;
-
         _midGameCanvas.enabled = true;
         _midGameRunning = true;
         ShowBanner(true, _midGameBanner);
@@ -348,6 +362,9 @@ public class GameManager : NetworkBehaviour
             _inBetweenGameTimer.text = Mathf.CeilToInt(timer).ToString();
             yield return null;
         }
+
+        Goat.Local.CanMove = true;
+        Goat.Local.CanJump = true;
 
         _midGameRunning = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -418,7 +435,8 @@ public class GameManager : NetworkBehaviour
     {
         if (Goat.Local != null)
         {
-            board.SetLeaderBoard();
+            if (board == null) FindObjectOfType<BoardUI>().SetLeaderBoard();
+            else board.SetLeaderBoard();
         }
     }
 
@@ -511,59 +529,97 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    public IEnumerator CheckIfLevelLoadedProperly()
+    {
+        yield return new WaitForSeconds(1);
+
+        //sometimes the remote player doesnt get the onchanged level callback
+        //from the host, it seems to be pretty random so i want to fix it by
+        //checking every after 1s if it needs to be set manually
+        switch (CurrentLevel)
+        {
+            case Levels.Level1:
+                _previousLevel = Levels.Level1;
+                LoadLevel1();
+                SetupGame();
+                break;
+            case Levels.Level2:
+                _previousLevel = Levels.Level2;
+                LoadLevel2();
+                SetupGame();
+                break;
+        }
+    }
+
     private void LevelChanged()
     {
+        Debug.LogError((CurrentLevel != _previousLevel) + " | currentlevel equals previouslevel");
+
         switch (CurrentLevel)
         {
             case Levels.Level1:
                 Debug.LogError("Level1 Loaded");
+                _previousLevel = Levels.Level1;
+
                 LoadLevel1();
 
-                StartLevelTimer();
-
-                StartCoroutine(CheckCountDown());
-
-                LoadKillPoints();
-
-                SetupPlayer();
-
-                if (FindObjectOfType<LoadingScreen>()) 
-                    FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
-
-                if (FindObjectOfType<LoadingGoat>()) 
-                    FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
+                SetupGame();
 
                 break;
             case Levels.Level2:
                 Debug.LogError("Level2 Loaded");
+                _previousLevel = Levels.Level2;
+
                 LoadLevel2();
 
-                StartLevelTimer();
-
-                StartCoroutine(CheckCountDown());
-
-                LoadKillPoints();
-
-                SetupPlayer();
-
-                if (FindObjectOfType<LoadingScreen>())
-                    FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
-
-                if (FindObjectOfType<LoadingGoat>())
-                    FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
+                SetupGame();
 
                 break;
             case Levels.None:
                 Debug.LogError("Level none Loaded");
+                _previousLevel = Levels.None;
+
                 LoadStartMenu();
                 break;
             case Levels.InBetween:
-                //add logic
+                Debug.LogError("InBetween Loaded");
+                _previousLevel = Levels.InBetween;
+
                 break;
             //VOID IS A STATE WHERE THE GAME IS IN NONE OF THE LEVELS AND HAS JUST CONNECTED TO THE SERVER
             case Levels.Void:
+                Debug.LogError("Void Loaded");
+                _previousLevel = Levels.Void;
                 break;
         }
+    }
+
+    private void SetupGame()
+    {
+        StartLevelTimer();
+
+        StartCoroutine(CheckCountDown());
+
+        //only spawn in the killpoints once since they auto sync for joining players
+        if (Runner.IsSharedModeMasterClient)
+        {
+            var levelbeh = FindObjectOfType<LevelBehaviour>();
+            if (levelbeh != null)
+            {
+                if (!levelbeh.Activated)
+                {
+                    LoadKillPoints(); Debug.LogError("went here");
+                }
+            }
+        }
+            
+        SetupPlayer();
+
+        if (FindObjectOfType<LoadingScreen>())
+            FindObjectOfType<LoadingScreen>().gameObject.SetActive(false);
+
+        if (FindObjectOfType<LoadingGoat>())
+            FindObjectOfType<LoadingGoat>().gameObject.SetActive(false);
     }
 
     private void SetupPlayer()
@@ -578,7 +634,7 @@ public class GameManager : NetworkBehaviour
 
             Goat.Local.ProgressBar.UpdateProgress(0);
 
-            StartCoroutine(Goat.Local.SetLeaderBoard(0));
+            StartCoroutine(Goat.Local.SetLeaderBoard(0.5f));
 
             Goat.Local.Respawn();
         }
@@ -662,8 +718,12 @@ public class GameManager : NetworkBehaviour
 
         //So i want 1 person to change the level which should call OnLevelChanged for everyone and also update their level
         if (Runner.IsSharedModeMasterClient)
+        {
             CurrentLevel = (Levels)UnityEngine.Random.Range(0, 2);
 
+            CurrentLocalLevel = CurrentLevel;
+        }
+            
         LevelUIObj.SetActive(true);
     }
 

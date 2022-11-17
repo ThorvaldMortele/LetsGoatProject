@@ -12432,7 +12432,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pause the game by pressing TAB
+  m_text: Pause the game by pressing Esc
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c994592ea774cbd42bf531b0ac616d2d, type: 2}
   m_sharedMaterial: {fileID: 2539673346513412502, guid: c994592ea774cbd42bf531b0ac616d2d, type: 2}
@@ -18598,6 +18598,7 @@ MonoBehaviour:
     - {fileID: 8008342979987488556}
     - {fileID: 8008342980709946318}
     - {fileID: 8008342981137656633}
+  Activated: 0
 --- !u!1 &8008342979631228961
 GameObject:
   m_ObjectHideFlags: 0
@@ -23314,6 +23315,7 @@ MonoBehaviour:
     - {fileID: 8085097388829343730}
     - {fileID: 8085097390508883799}
     - {fileID: 8085097388881257389}
+  Activated: 0
 --- !u!65 &8085097388775285284
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -6,7 +6,7 @@ public class Deathzone : MonoBehaviour
 {
     private float _time;
 
-    private void Awake()
+    private void OnEnable()
     {
         _time = Time.time;
     }

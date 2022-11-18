@@ -33,7 +33,7 @@ public class InGameUI : MonoBehaviour
 
     public bool _executed;
 
-    private void Start()
+    private void OnEnable()
     {
         Debug.LogWarning("Loaded " + this);
 
@@ -161,6 +161,8 @@ public class InGameUI : MonoBehaviour
     {
         _playerAudioManager.Play("Click");
         GameManager.Instance.LeaveGame();
+        _pauseObj.SetActive(false);
+
     }
 
     public void SettingsMenu()
@@ -175,7 +177,5 @@ public class InGameUI : MonoBehaviour
         _playerAudioManager.Play("Click");
         _pauseObj.SetActive(true);
         _settingsObj.SetActive(false);
-
-
     }
 }

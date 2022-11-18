@@ -113,7 +113,7 @@ public class Goat : NetworkBehaviour
     public bool isActivated => (gameObject.activeInHierarchy && (State == PlayerState.Active || State == PlayerState.Spawning));
     public bool isRespawningDone => State == PlayerState.Spawning;
 
-    public int playerID { get; private set; }
+    public int PlayerID { get; private set; }
 
     private float _respawnInSeconds = -1;
 
@@ -180,7 +180,7 @@ public class Goat : NetworkBehaviour
 
         // Getting this here because it will revert to -1 if the player disconnects,
         // but we still want to remember the Id we were assigned for clean-up purposes
-        playerID = Object.InputAuthority;
+        PlayerID = Object.InputAuthority;
 
         GoatManager.AddPlayer(this);
 
@@ -490,7 +490,7 @@ public class Goat : NetworkBehaviour
 
     private void ResetPlayer()
     {
-        Debug.Log($"Resetting player {playerID}, tick={Runner.Simulation.Tick}, hasAuthority={Object.HasStateAuthority} to state={State}");
+        Debug.Log($"Resetting player {PlayerID}, tick={Runner.Simulation.Tick}, hasAuthority={Object.HasStateAuthority} to state={State}");
         State = PlayerState.Active;
         CanJump = true;
         CanMove = true;
@@ -731,7 +731,10 @@ public class Goat : NetworkBehaviour
 
     public IEnumerator SetLeaderBoard(float delay)
     {
-        yield return new WaitForSeconds(delay);
+        //this should wait until networkconnection is not null which happens when it spawns
+        //so it waits until the goat is spawned to call this
+        yield return new WaitUntil(() => _networkConnection != null);
+        //yield return new WaitForSeconds(delay);
 
         GameManager.Instance.Initializeleaderboard();
 

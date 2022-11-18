@@ -27,7 +27,7 @@ public class GoatManager : MonoBehaviour
         // Sort the player list when adding players
         for (int i = 0; i < _allPlayers.Count; i++)
         {
-            if (_allPlayers[i].playerID > player.playerID)
+            if (_allPlayers[i].PlayerID > player.PlayerID)
             {
                 insertIndex = i;
                 break;
@@ -43,7 +43,7 @@ public class GoatManager : MonoBehaviour
         if (player == null || !_allPlayers.Contains(player))
             return;
 
-        Debug.Log("Player Removed " + player.playerID);
+        Debug.Log("Player Removed " + player.PlayerID);
 
         _allPlayers.Remove(player);
     }
@@ -59,7 +59,7 @@ public class GoatManager : MonoBehaviour
     {
         foreach (Goat player in _allPlayers)
         {
-            if (player.playerID == id)
+            if (player.PlayerID == id)
                 return player;
         }
 

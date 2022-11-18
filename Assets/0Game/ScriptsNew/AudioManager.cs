@@ -98,7 +98,9 @@ public class AudioManager : MonoBehaviour
     public void Play(string name)
     {
         Sound s = Array.Find(Sounds, sound => sound.Name == name);
-        s.Source.Play();
+
+        if (s != null)
+            s.Source.Play();
     }
 }
 

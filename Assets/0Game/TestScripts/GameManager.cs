@@ -174,16 +174,19 @@ public class GameManager : NetworkBehaviour
         _midGameRunning = false;
 
         StopCoroutine(MidGame());
+        StopCoroutine(LevelTimer());
+
+        FindObjectOfType<LevelBehaviour>().Activated = false;
 
         _networkConnection.StartCamera.SetActive(true);
-
-        Runner.Shutdown(false);
 
         EnableLoadingScreen();
 
         LoadStartMenu();
 
         _inGameUI.gameObject.SetActive(false);
+
+        Runner.Shutdown(false);
     }
 
     #endregion
@@ -199,6 +202,7 @@ public class GameManager : NetworkBehaviour
 
     public void KillPlayerOutOfBounds(Goat player)
     {
+        //add check so it doesnt do it if you just spawn in
         if (CurrentLevel != Levels.InBetween)
             player.KillPlayerOutOfBounds();
     }

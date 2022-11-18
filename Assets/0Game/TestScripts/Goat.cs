@@ -192,7 +192,7 @@ public class Goat : NetworkBehaviour
 
             Rpc_SetUsername(Username.Value);
 
-            //runner.AddCallbacks(this);
+            _networkConnection.ShowBanner(false);
         }
 
         //spawns a camera for the player on the local pc
